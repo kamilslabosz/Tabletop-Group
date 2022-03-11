@@ -1,0 +1,26 @@
+{% extends 'bootstrap/base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block styles %}
+{{ super() }}
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+{% endblock %}
+
+
+{% block title %}Assign Root Factions{% endblock %}
+
+
+{% block content %}
+<div class="container-center">
+      <div class="form-center">
+
+      <h1 class="heading-text">Give me some info</h1>
+      {% if need_expansion%}
+      <p>You need at least one expansion to play with 5+ players</p>
+      {% endif %}
+      {{ wtf.quick_form(form, novalidate=True) }}
+      </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'bootstrap/base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block styles %}
+{{ super() }}
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+{% endblock %}
+
+
+{% block title %}To Do List{% endblock %}
+
+
+{% block content %}
+<div class="container-center">
+
+    {% for item in tasks %}
+    <input type="checkbox"><label> {{ item.title() }} </label>
+    <br>
+    {% endfor %}
+    <br>
+    <div class="text-center">
+    <h2 class="heading-text">Type your list!</h2>
+    <form method="POST" action="/todo">
+        {{ form.todo_text(rows='20',cols='40') }}
+        <br>
+        <input class="btn btn-warning btn-lg" id="submit" name="submit" type="submit" value="Add to list">
+    </form>
+    <a class="btn btn-warning btn-lg" href="{{url_for('clear_todo_list')}}" role="button">Clear list</a>
+    </div>
+
+</div>
+
+{% endblock %}

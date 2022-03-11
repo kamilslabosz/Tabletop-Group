@@ -1,0 +1,25 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block styles %}
+
+{{ super() }}
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+{% endblock %}
+
+
+{% block title %}Kamil Słabosz{% endblock %}
+
+
+{% block content %}
+<div class="jumbotron text-center">
+    <div class="container">
+      <h1 class="display-4">Kamil's Personal Site</h1>
+      <p class="lead">Check out some of the stuff I did</p>
+      <hr class="my-4">
+      <a class="btn btn-warning btn-lg" href="{{ url_for('root_faction_assigner') }}" role="button">Root Faction Assigner</a>
+      <a class="btn btn-warning btn-lg" href="{{ url_for('todo') }}" role="button">ToDo List</a>
+
+    </div>
+</div>
+
+{% endblock %}

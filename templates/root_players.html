@@ -1,0 +1,39 @@
+{% extends 'bootstrap/base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block styles %}
+{{ super() }}
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+{% endblock %}
+
+
+{% block title %}Assign Root Factions{% endblock %}
+
+
+{% block content %}
+<div class="container-center">
+
+      {% if form %}
+      <div class="form-center">
+
+      <h1 class="heading-text">Give me player names</h1>
+
+      {{ wtf.quick_form(form, novalidate=True) }}
+      </div>
+
+      {% else %}
+      <div class="text-center">
+      <h1 class="heading-text">Here's the turn order:</h1>
+      {% for player in players_dict.keys() %}
+      <h2>{{ player }}: {{ players_dict[player] }}</h2>
+      {% endfor %}
+      <a class="btn btn-warning btn-lg" href="{{ url_for('root_faction_assigner') }}" role="button">Start from scratch</a>
+      <button class="btn btn-warning btn-lg" onClick="window.location.reload();">Reassign factions</button>
+      </div>
+      {% endif %}
+
+
+
+</div>
+
+{% endblock %}
