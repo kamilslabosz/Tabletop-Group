@@ -1,16 +1,5 @@
-{% extends 'bootstrap/base.html' %}
 {% import "bootstrap/wtf.html" as wtf %}
-
-{% block styles %}
-{{ super() }}
-	<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-{% endblock %}
-
-
-{% block title %}Assign Root Factions{% endblock %}
-
-
-{% block content %}
+{% include "header.html" %}
 <div class="container-center">
       <div class="form-center">
 
@@ -23,4 +12,4 @@
 
 </div>
 
-{% endblock %}
+{% include 'footer.html'%}

@@ -1,9 +1,22 @@
+/* https://colorhunt.co/palette/890F0D630606e83a14d9ce3f */
 
-/* https://colorhunt.co/palette/630606890f0de83a14d9ce3f */
 
 body {
-background-color: #630606;
-color: white;
+    background-color: #890F0D;
+    color: white;
+}
+
+.navbar {
+    background-color: #D9CE3F;
+    border-radius: 8px;
+}
+
+.dropdown-item:hover {
+    background-color: #ffca2c;
+}
+
+.nav-color {
+    background-color: #D9CE3F;
 }
 
 a {
@@ -20,11 +33,11 @@ a {
   margin: 0;
   height: 100vh;
   color: white;
-  background-color: #630606;
+  background-color: #890F0D;
 }
 
 .container {
-    background-color: #890F0D;
+    background-color: #630606;
     padding-bottom: 15px;
     margin-top: auto;
     margin-bottom: auto;
@@ -32,15 +45,22 @@ a {
 }
 
 .container-center {
-    background-color: #890F0D;
+    background-color: #630606;
     margin: auto 30%;
     border-radius: 4px;
     padding-bottom: 15px;
+    height: 100vh;
 }
 
 .heading-text {
     text-align: center;
     padding: 15px;
+}
+
+.root_player_ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
 
 .form {
@@ -52,12 +72,36 @@ a {
     padding-top: 20px;
 }
 
+.space-above-item {
+   margin-top: 20px;
+}
+
 .btn-warning{
     background-color: #D9CE3F;
     color: black;
     border-color: #D9CE3F;
     margin-top: 15px;
 }
+
+.btn-warning:hover {
+    color: #fff;
+    background-color: #ec971f;
+    border-color: #d58512;
+}
+
+.btn-outline-warning {
+    color: #000;
+    background-color: #D9CE3F;
+    border-color: #D9CE3F;
+}
+
+.btn-outline-warning:hover, .btn-check:checked+.btn-outline-warning {
+    color: #D9CE3F;
+    border-color: #D9CE3F;
+    background-color: #890F0D;
+}
+
+
 
 #submit {
     background-color: #D9CE3F;
@@ -78,4 +122,8 @@ a {
     height: 30%;
     width: 80%;
     color: black;
+}
+
+.footer {
+    background-color: #E83A14;
 }
