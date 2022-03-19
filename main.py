@@ -7,7 +7,7 @@ from scripts import root_available_factions, root_assign_faction
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = 'somestringfornow123a1!@asf2@!#$'
+app.config['SECRET_KEY'] = 'fasjkhnwo987324oija9832jasadgf23SAqf'
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cafes.db'
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -19,6 +19,17 @@ Bootstrap(app)
 @app.route("/")
 def home():
     return render_template("index.html")
+
+
+@app.route("/about")
+def about():
+    return render_template("index.html")
+
+
+@app.route("/contact-me")
+def contact_me():
+    return render_template("index.html")
+
 
 
 # -----------------ROOT BOARDGAME--------------------------------
@@ -81,9 +92,9 @@ def todo():
     form = TodoForm()
     if request.method == "POST":
         try:
-            session['todo_list'] += form.todo_text.data.split(" ")
+            session['todo_list'] += enumerate(form.todo_text.data.split(","))
         except KeyError:
-            session['todo_list'] = form.todo_text.data.split(" ")
+            session['todo_list'] = enumerate(form.todo_text.data.split(","))
         current_list = session.get('todo_list')
         print(current_list)
         form.todo_text.data = ""
@@ -96,5 +107,21 @@ def clear_todo_list():
     session['todo_list'] = []
     return redirect(url_for('todo'))
 
+
+# ----------TTRPG CAMPAIGN TRACKER-----------------------------
+@app.route("/ttrpg")
+def ttrpg_campaing_trakcer():
+    page = "Tabletop RPG Campaign Tracker"
+    return render_template("work_in_progress.html", target_page=page)
+
+
+# ----------BOARDGAMES COLLECTION LIBRARY-----------------------------
+@app.route("/boardgames")
+def boardgames():
+    page = "Boardgames Collection Library"
+    return render_template("work_in_progress.html", target_page=page)
+
+
 if __name__ == '__main__':
     app.run(debug=True)
+

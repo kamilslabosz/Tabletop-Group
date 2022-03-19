@@ -1,8 +1,24 @@
-/* https://colorhunt.co/palette/890F0D630606e83a14d9ce3f */
+/* https://colorhunt.co/palette/890F0D5A5959e83a14d9ce3f */
 
+h1 {
+    font-family: 'Indie Flower', cursive;
+}
+
+p {
+    font-family: 'Oswald', sans-serif;
+}
+
+.bigger {
+    font-size: 1.25rem;
+}
+
+.nav-font {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 1.25rem;
+}
 
 body {
-    background-color: #890F0D;
+    background-color: #5A5959;
     color: white;
 }
 
@@ -14,7 +30,11 @@ body {
     border-radius: 50px;
     padding: 50%;
     margin-bottom: 10px;
-    border: none;
+    border-color: #D9CE3F;
+}
+
+.home-btn:hover{
+    color: rgba(90, 88, 88, 0.5);
 }
 
 .background{
@@ -54,27 +74,33 @@ a {
   margin: 0;
   height: 100vh;
   color: white;
-  background-color: #890F0D;
+  background-color: #5A5959;
 }
 
 .container {
-    background-color: #630606;
+    background-color: #5A5959;
     padding-bottom: 15px;
     margin-top: auto;
-    margin-bottom: auto;
+    margin-bottom: 3%;
+    border: 1px solid transparent;
     border-radius: 20px;
+    border-color: #D9CE3F;
 }
 
 .container-5 {
-    background-color: #630606;
+    background-color: #5A5959;
     margin: 3% 13%;
+    border: 1px solid transparent;
     border-radius: 20px;
+    border-color: #D9CE3F;
 }
 
 .container-center {
-    background-color: #630606;
+    background-color: #5A5959;
     margin: 15% 30% 60%;
+    border: 1px solid transparent;
     border-radius: 20px;
+    border-color: #D9CE3F;
 }
 
 .heading-text {
@@ -127,10 +153,12 @@ a {
 .btn-outline-warning:hover, .btn-check:checked+.btn-outline-warning {
     color: #D9CE3F;
     border-color: #D9CE3F;
-    background-color: #890F0D;
+    background-color: #5A5959;
 }
 
-
+.btn {
+    font-family: 'Bebas Neue', cursive;
+}
 
 #submit {
     background-color: #D9CE3F;
@@ -161,4 +189,24 @@ a {
 
 .footer {
     background-color: #E83A14;
+}
+
+.footer-font {
+    margin-bottom: 0px;
+}
+
+.footer-icon {
+    font-size: 2rem;
+    margin-top: 10px;
+}
+
+.footer-link {
+    color: white;
+    text-decoration: none;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.footer-link:hover {
+    color: #ffc107;
 }
