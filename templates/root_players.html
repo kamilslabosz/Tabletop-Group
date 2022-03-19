@@ -1,5 +1,9 @@
 {% import "bootstrap/wtf.html" as wtf %}
+
 {% include "header.html" %}
+<div class="background" style="background-image: url({{ url_for('static', filename='img/root-bg.jpg')}})">
+{% include "navbar.html" %}
+
 <div class="container-center">
 
       {% if form %}
@@ -28,3 +32,4 @@
 </div>
 
 {% include 'footer.html'%}
+</div>

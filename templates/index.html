@@ -1,15 +1,26 @@
 {% include "header.html" %}
-<div class="jumbotron text-center">
-    <div class="container">
-      <h1 class="display-4">Kamil's Personal Site</h1>
-      <p class="lead">Check out some of the stuff I did</p>
-      <hr class="my-4">
-      <a class="btn btn-warning btn-lg" href="{{ url_for('root_faction_assigner') }}" role="button">Root Faction Assigner</a>
-      <a class="btn btn-warning btn-lg" href="{{ url_for('todo') }}" role="button">ToDo List</a>
+<div class="background" style="background-image: url({{ url_for('static', filename='img/home-bg.JPG')}})">
+{% include "navbar.html" %}
+<div class="container-5 text-center">
+    <div class="container space-above">
+        <div class="row">
+            <div class="col-lg-4 col-sm-6">
+                <a class="btn home-btn" style="background-image: url({{ url_for('static', filename='img/root-bg.jpg')}})" href="{{ url_for('root_faction_assigner') }}" role="button"> </a>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <a class="btn home-btn" style="background-image: url({{ url_for('static', filename='img/to_do_list-bg.jpg')}})" href="{{ url_for('todo') }}" role="button"> </a>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+                <a class="btn home-btn" style="background-image: url({{ url_for('static', filename='img/to_do_list-bg.jpg')}})" href="{{ url_for('todo') }}" role="button"> </a>
+            </div>
+            <div class="col-lg-4 col-sm-6">
+            <a class="btn home-btn" style="background-image: url({{ url_for('static', filename='img/me.jpg')}})" href="#" role="button"> </a>
+            </div>
+        </div>
 
     </div>
 </div>
 
 {% include 'footer.html'%}
 
-
+</div>

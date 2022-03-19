@@ -1,28 +1,32 @@
 {% include "header.html" %}
-<div class="container-center space-above">
-    <div class="text-center">
-        <div class="row">
-            {% for num, item in tasks %}
-                <div class="col-lg-4 col-md-6 col-sm-12 space-above-item">
-                    <input type="checkbox" class="btn-check" id="btn-check-outlined{{num}}" autocomplete="off">
-                    <label class="btn btn-outline-warning" for="btn-check-outlined{{num}}"> {{ item.title() }} </label>
-                </div>
-                <br>
-            {% endfor %}
-        </div>
-    </div>
-    <br>
-    <div class="text-center">
-    <h2 class="heading-text">Type your list!</h2>
-        <h3>Use "," to separate items</h3>
-    <form method="POST" action="/todo">
-        {{ form.todo_text(rows='20',cols='40') }}
-        <br>
-        <input class="btn btn-warning btn-lg" id="submit" name="submit" type="submit" value="Add to list">
-    </form>
-    <a class="btn btn-warning btn-lg" href="{{url_for('clear_todo_list')}}" role="button">Clear list</a>
-    </div>
+<div class="background" style="background-image: url({{ url_for('static', filename='img/to_do_list-bg.jpg')}})">
+{% include "navbar.html" %}
 
-</div>
+    <div class="container-5" id="todo_container">
+        <div class="text-center">
+            <div class="row">
+                {% for num, item in tasks %}
+                    <div class="col-lg-2 col-md-3 col-sm-4 space-above-item">
+                        <input type="checkbox" class="btn-check" id="btn-check-outlined{{num}}" autocomplete="off">
+                        <label class="btn btn-outline-warning" for="btn-check-outlined{{num}}"> {{ item.title() }} </label>
+                    </div>
+                    <br>
+                {% endfor %}
+            </div>
+        </div>
+        <br>
+        <div class="text-center">
+        <h2 class="heading-text">Type your list!</h2>
+            <h3>Use "," to separate items</h3>
+        <form method="POST" action="/todo">
+            {{ form.todo_text(rows='10',cols='40') }}
+            <br>
+            <input class="btn btn-warning btn-lg" id="submit" name="submit" type="submit" value="Add to list">
+        </form>
+        <a class="btn btn-warning btn-lg" href="{{url_for('clear_todo_list')}}" role="button">Clear list</a>
+        </div>
+
+    </div>
 
 {% include 'footer.html'%}
+</div>
