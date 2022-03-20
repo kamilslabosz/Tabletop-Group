@@ -2,6 +2,7 @@ import smtplib
 import os
 
 from flask import Flask, render_template, redirect, url_for, session, request
+from flask_session import Session
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from email.mime.text import MIMEText
@@ -13,6 +14,9 @@ from scripts import root_available_factions, root_assign_faction
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+app.config["SESSION_PERMANENT"] = True
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
 Bootstrap(app)
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cafes.db'
