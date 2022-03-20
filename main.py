@@ -1,26 +1,28 @@
 import smtplib
+import os
 
 from flask import Flask, render_template, redirect, url_for, session, request
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_ckeditor import CKEditor
 from email.mime.text import MIMEText
+from dotenv import load_dotenv
 
 
 from forms import *
 from scripts import root_available_factions, root_assign_faction
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'fasjkhnwo987324oija9832jasadgf23SAqf'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
 ckeditor = CKEditor(app)
 Bootstrap(app)
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cafes.db'
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # db = SQLAlchemy(app)
-
-my_email = ""
-password = ""
+load_dotenv()
+my_email = os.environ.get('MY_EMAIL')
+password = os.environ.get("MY_PASSWORD")
 
 
 @app.route("/")
