@@ -1,19 +1,26 @@
+import smtplib
+
 from flask import Flask, render_template, redirect, url_for, session, request
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
+from flask_ckeditor import CKEditor
+from email.mime.text import MIMEText
+
 
 from forms import *
 from scripts import root_available_factions, root_assign_faction
 
 app = Flask(__name__)
-
 app.config['SECRET_KEY'] = 'fasjkhnwo987324oija9832jasadgf23SAqf'
+ckeditor = CKEditor(app)
+Bootstrap(app)
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cafes.db'
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # db = SQLAlchemy(app)
 
-Bootstrap(app)
+my_email = ""
+password = ""
 
 
 @app.route("/")
@@ -23,18 +30,36 @@ def home():
 
 @app.route("/about")
 def about():
-    return render_template("index.html")
+    return render_template("about.html")
 
 
-@app.route("/contact-me")
+@app.route("/contact-me", methods=["GET", "POST"])
 def contact_me():
-    return render_template("index.html")
+    form = ContactForm()
+    if form.validate_on_submit():
+        name = form.name.data
+        email = form.email.data
+        message = form.message.data
+        text_type = 'plain'
+        with smtplib.SMTP("smtp.mail.yahoo.com", port=587) as connection:
+            connection.starttls()
+            connection.login(user=my_email, password=password)
+            text = f"Name: {form.name.data}\nemail: {form.email.data}\n" \
+                   f"\nMessage: {form.message.data}"
+            msg = MIMEText(text, text_type, 'utf-8')
+            msg['Subject'] = "New Message"
+            msg['From'] = my_email
+            msg['To'] = 'slaboszkamil@gmail.com'
+            connection.sendmail(msg['From'], msg['To'], msg.as_string())
 
+        return render_template('contact.html', sent=True)
+
+    return render_template("contact.html", form=form)
 
 
 # -----------------ROOT BOARDGAME--------------------------------
 
-
+#TODO ALLOW TO EXCLUDE FACTIONS
 @app.route('/root', methods=["GET", "POST"])
 def root_faction_assigner():
     form = RootInfoForm()
@@ -84,9 +109,9 @@ def root_players(players):
         return render_template('root_players.html', players_dict=players_dict)
     return render_template('root_players.html', form=form)
 
+
 # ----------------TO DO LIST-----------------------
-
-
+# TODO CHECKS COOKIES
 @app.route("/todo", methods=["GET", "POST"])
 def todo():
     form = TodoForm()
@@ -109,6 +134,7 @@ def clear_todo_list():
 
 
 # ----------TTRPG CAMPAIGN TRACKER-----------------------------
+# TODO CREATE DATABASE OF USER GAMES AND ALLOW TO TRACK NUMBER OF SESSIONS
 @app.route("/ttrpg")
 def ttrpg_campaing_trakcer():
     page = "Tabletop RPG Campaign Tracker"
@@ -116,6 +142,7 @@ def ttrpg_campaing_trakcer():
 
 
 # ----------BOARDGAMES COLLECTION LIBRARY-----------------------------
+# TODO CREATE DATABASE OF USER BOARDGAMES AND ALLOW BOARDGAMEGEEK COLLECTION IMPORT
 @app.route("/boardgames")
 def boardgames():
     page = "Boardgames Collection Library"

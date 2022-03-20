@@ -1,6 +1,8 @@
-from flask_wtf import FlaskForm, Form
-from wtforms import SubmitField, BooleanField, SelectField, StringField, FieldList, FormField, TextAreaField
+from flask_wtf import FlaskForm
+from wtforms import SubmitField, BooleanField, SelectField, StringField, FieldList, FormField, TextAreaField, EmailField
 from wtforms.validators import DataRequired
+from flask_ckeditor import CKEditorField
+
 
 # Forms for Root Faction Assigner--------------------------------------------
 
@@ -62,9 +64,18 @@ class Root6PlayerForm(FlaskForm):
     player6 = StringField('Player 6')
     submit = SubmitField('Submit')
 
-# FORM FOR TO DO LIST --------------------------------------------------------
+# ------------------FORM FOR TO DO LIST ----------
 
 
 class TodoForm(FlaskForm):
     todo_text = TextAreaField(validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+
+# ----------CONTACT FORM------------------------
+
+class ContactForm(FlaskForm):
+    name = StringField('Your Name', validators=[DataRequired()])
+    email = EmailField('Your email', validators=[DataRequired()])
+    message = TextAreaField('Message', validators=[DataRequired()])
     submit = SubmitField('Submit')

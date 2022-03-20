@@ -1,0 +1,21 @@
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% include "header.html" %}
+<div class="background" style="background-image: url({{ url_for('static', filename='img/contact-me-bg.jpg')}})">
+{% include "navbar.html" %}
+
+    <div class="container-center text-center space-above">
+        {% if sent %}
+        <h1 class="header-text">Message sent!</h1>
+        {% else %}
+        <h1 class="header-text">Got questions?</h1>
+        <p class="lead"> Contact me through this form or <a href="https://www.linkedin.com/in/kamil-s%C5%82abosz-193634222/">LinkedIn</a></p>
+
+
+        {{ wtf.quick_form(form, novalidate=True) }}
+
+        {% endif %}
+    </div>
+
+{% include 'footer.html'%}
+</div>

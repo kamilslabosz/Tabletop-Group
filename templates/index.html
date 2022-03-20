@@ -4,8 +4,7 @@
 <div class="text-center">
     <div class="container space-above" id="home-container">
         <h1 class="display-4">Hi there</h1>
-        <p class="lead">My name's Kamil. I'm a python developer. Below are some webapps that I use. Some of it is still work in progress though, so please keep that in mind.</p>
-        <p class="lead"> Most of the images used on this site come from Pixabay. Some are photos I took myself. </p>
+        <p class="lead">Below are some webapps that I use. Some of it is still under construction, so please keep that in mind.</p>
         <hr class="my-4">
         <div class="row">
             <div class="col-lg-4 col-sm-6">
@@ -21,10 +20,10 @@
                 <a class="btn home-btn" style="background-image: url({{ url_for('static', filename='img/to_do_list-bg.jpg')}})" href="{{ url_for('todo') }}" role="button"> </a>
             </div>
             <div class="col-lg-4 col-sm-6">
-                <a class="btn home-btn" style="background-image: url({{ url_for('static', filename='img/contact-me-bg.jpg')}})" href="#" role="button"> </a>
+                <a class="btn home-btn" style="background-image: url({{ url_for('static', filename='img/contact-me-bg.jpg')}})" href="{{ url_for('contact_me') }}" role="button"> </a>
             </div>
             <div class="col-lg-4 col-sm-6">
-            <a class="btn home-btn" style="background-image: url({{ url_for('static', filename='img/me.jpg')}})" href="#" role="button"> </a>
+            <a class="btn home-btn" style="background-image: url({{ url_for('static', filename='img/me.jpg')}})" href="{{ url_for('about') }}" role="button"> </a>
             </div>
         </div>
 

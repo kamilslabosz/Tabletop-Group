@@ -31,7 +31,10 @@ def root_available_factions(riverfolk=False, underworld=False, marauder=False):
 
 
 def root_assign_faction(reach, players):
-    available_factions = reach.copy()
+    try:
+        available_factions = reach.copy()
+    except AttributeError:
+        return False
     reach_sums = {
         2: 17, 3: 18, 4: 21, 5: 25, 6: 28,
     }
