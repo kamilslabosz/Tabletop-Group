@@ -1,7 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import SubmitField, BooleanField, SelectField, StringField, FieldList, FormField, TextAreaField, EmailField
 from wtforms.validators import DataRequired
-from flask_ckeditor import CKEditorField
 
 
 # Forms for Root Faction Assigner--------------------------------------------
