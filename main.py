@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 
 
 from forms import *
-from scripts import root_available_factions, root_assign_faction
+from scripts import root_available_factions, root_assign_faction, check_reach_vs_player_num, root_exclude_factions
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
@@ -71,10 +71,10 @@ def root_faction_assigner():
                                                   underworld=form.underworld.data,
                                                   marauder=form.marauder.data)
     if form.validate_on_submit():
-
         players = form.players.data
         if int(players) > 4 and not form.riverfolk.data and not form.underworld.data and not form.marauder.data:
             return render_template('root.html', form=form, need_expansion=True)
+        # check_reach_vs_player_num(players=players, reach_dict=session['factions'])
         return redirect(url_for('root_players', players=players))
     return render_template('root.html', form=form)
 

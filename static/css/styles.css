@@ -8,6 +8,10 @@ p {
     font-family: 'Oswald', sans-serif;
 }
 
+.oswald {
+   font-family: 'Oswald', sans-serif;
+}
+
 .bigger {
     font-size: 1.25rem;
 }
@@ -128,6 +132,14 @@ a:hover {
     padding-top: 20px;
 }
 
+.space-above-little {
+    margin-top: 10px;
+}
+
+.space-below {
+    margin-bottom: 10px;
+}
+
 .space-above-item {
    margin-top: 20px;
 }
@@ -159,6 +171,19 @@ a:hover {
     color: #D9CE3F;
     border-color: #D9CE3F;
     background-color: #5A5959;
+}
+
+.btn-outline-exp {
+    color: #D9CE3F;
+    border-color: #D9CE3F;
+    background-color: #5A5959;
+
+}
+
+.btn-outline-exp:hover, .btn-check:checked+.btn-outline-exp {
+    color: #000;
+    background-color: #D9CE3F;
+    border-color: #D9CE3F;
 }
 
 .btn {
@@ -236,7 +261,7 @@ a:hover {
 }
 
 #about-container {
-    margin-bottom: 3%;
+    margin: 3% 15%;
 }
 
 .text-margin {
@@ -246,4 +271,13 @@ a:hover {
 .error-text {
     text-align: center;
     color: #D9CE3F;
+}
+
+.root-faction-btn {
+    width: 100%;
+}
+
+#root-container {
+    margin-left: 20%;
+    margin-right: 20%;
 }

@@ -30,6 +30,33 @@ def root_available_factions(riverfolk=False, underworld=False, marauder=False):
     return reach
 
 
+def root_exclude_factions(reach_dict):
+    pass
+
+def check_reach_vs_player_num(players, reach_dict):
+    reach_sums = {
+        2: 17, 3: 18, 4: 21, 5: 25, 6: 28,
+    }
+    num_players = int(players)
+
+    if len(reach_dict) < num_players:
+        reach_ok = False
+    else:
+
+        sorted_reach = sorted(reach_dict.values())
+        reach = 0
+        print(sorted_reach)
+        for num in range(1, num_players+1):
+            reach += sorted_reach[-num]
+        print(reach)
+        if reach < reach_sums[num_players]:
+            reach_ok = False
+        else:
+            reach_ok = True
+
+    return reach_ok
+
+
 def root_assign_faction(reach, players):
     try:
         available_factions = reach.copy()
@@ -58,7 +85,3 @@ def root_assign_faction(reach, players):
         assigned_factions = root_assign_faction(reach, players)
     print(assigned_factions)
     return assigned_factions
-
-
-class RootScripts:
-    pass
