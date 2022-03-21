@@ -63,7 +63,7 @@ def contact_me():
 
 # -----------------ROOT BOARDGAME--------------------------------
 
-#TODO ALLOW TO EXCLUDE FACTIONS
+# TODO ALLOW TO EXCLUDE FACTIONS
 @app.route('/root', methods=["GET", "POST"])
 def root_faction_assigner():
     form = RootInfoForm()
@@ -100,6 +100,7 @@ def root_players(players):
 
     if form.validate_on_submit():
         reach = session.get('factions')
+        print(reach)
         players_list = []
         for index, field in enumerate(form):
             if index >= int(players):
@@ -109,8 +110,10 @@ def root_players(players):
                 print(players_list)
 
         players_dict = root_assign_faction(reach=reach, players=players_list)
-
-        return render_template('root_players.html', players_dict=players_dict)
+        if not players_dict:
+            return redirect(url_for('root_faction_assigner'))
+        else:
+            return render_template('root_players.html', players_dict=players_dict)
     return render_template('root_players.html', form=form)
 
 
@@ -121,10 +124,11 @@ def todo():
     form = TodoForm()
     if request.method == "POST":
         try:
-            session['todo_list'] += enumerate(form.todo_text.data.split(","))
+            session['todo_list'] += form.todo_text.data.split(",")
         except KeyError:
-            session['todo_list'] = enumerate(form.todo_text.data.split(","))
-        current_list = session.get('todo_list')
+            session['todo_list'] = form.todo_text.data.split(",")
+        session['enum_todo_list'] = enumerate(session.get('todo_list'))
+        current_list = session.get('enum_todo_list')
         print(current_list)
         form.todo_text.data = ""
         return render_template('todo.html', form=form, tasks=current_list)
@@ -154,5 +158,5 @@ def boardgames():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
 

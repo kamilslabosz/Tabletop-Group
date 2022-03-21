@@ -242,3 +242,8 @@ a:hover {
 .text-margin {
     margin: 3%;
 }
+
+.error-text {
+    text-align: center;
+    color: #D9CE3F;
+}

@@ -13,12 +13,7 @@
 
           {{ wtf.quick_form(form, novalidate=True) }}
       </div>
-      {% elif not reach %}
-      <div class="text-center">
-          <h1 class="heading-text">Error</h1>
-          <p class="lead">You need to start from the beginning</p>
-          <a class="btn btn-warning btn-lg" href="{{ url_for('root_faction_assigner') }}" role="button">Start from beginning</a>
-      </div>
+
 
        {% else %}
        <div class="text-center">
