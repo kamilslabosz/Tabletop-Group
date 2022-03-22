@@ -19,10 +19,12 @@ _mailinglist
 docs/_build/
 .vscode
 /static/img/temp/
+/templates/page_template.html
 
 # Coverage reports
 htmlcov/
 .coverage
 .coverage.*
 *,cover
+
 

@@ -3,35 +3,42 @@
 {% include "header.html" %}
 <div class="background" style="background-image: url({{ url_for('static', filename='img/root-bg.jpeg')}})">
 {% include "navbar.html" %}
+<div class="row no-margin">
+      <div class="col-1 col-lg-3"></div>
+        <div class="col-10 col-lg-6">
+            <div class="container space-above">
 
-<div class="container-center">
+                {% if form %}
 
-      {% if form %}
-      <div class="form-center">
+                  <div class="form-center">
 
-          <h1 class="heading-text">Give me player names</h1>
+                      <h1 class="heading-text">Give me player names</h1>
+                        <div class="row justify-content-center">
+                            <div class="col-11 col-lg-11">
+                                {{ wtf.quick_form(form, novalidate=True) }}
+                            </div>
+                        </div>
 
-          {{ wtf.quick_form(form, novalidate=True) }}
-      </div>
+                  </div>
 
+               {% else %}
+                   <div class="text-center">
+                       <h1 class="heading-text">Here's the turn order:</h1>
+                       <ul class="root_player_ul">
+                       {% for player in players_dict.keys() %}
+                        <li class="oswald">{{ player }}: {{ players_dict[player] }}</li>
+                        {% endfor %}
 
-       {% else %}
-       <div class="text-center">
-           <h1 class="heading-text">Here's the turn order:</h1>
-           <ul class="root_player_ul">
-           {% for player in players_dict.keys() %}
-            <li class="oswald">{{ player }}: {{ players_dict[player] }}</li>
-            {% endfor %}
+                      </ul>
+                      <a class="btn btn-warning btn-lg space-below" href="{{ url_for('root_faction_assigner') }}" role="button">Start from scratch</a>
+                      <button class="btn btn-warning btn-lg space-below" onClick="window.location.reload();">Reassign factions</button>
+                   </div>
+              {% endif %}
 
-          </ul>
-          <a class="btn btn-warning btn-lg space-below" href="{{ url_for('root_faction_assigner') }}" role="button">Start from scratch</a>
-          <button class="btn btn-warning btn-lg space-below" onClick="window.location.reload();">Reassign factions</button>
-      </div>
-      {% endif %}
-
-
-
-</div>
+            </div>
+        </div>
+    <div class="col-1 col-lg-3"></div>
+    </div>
 
 {% include 'footer.html'%}
 </div>

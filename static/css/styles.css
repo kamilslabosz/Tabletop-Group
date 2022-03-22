@@ -1,69 +1,16 @@
-/* https://colorhunt.co/palette/890F0D5A5959e83a14d9ce3f */
 
+/* ----------------GENERAL---------------------- */
 h1 {
     font-family: 'Indie Flower', cursive;
 }
 
-p {
-    font-family: 'Oswald', sans-serif;
-}
-
-.oswald {
+p, .oswald {
    font-family: 'Oswald', sans-serif;
-}
-
-.bigger {
-    font-size: 1.25rem;
-}
-
-.nav-font {
-    font-family: 'Bebas Neue', cursive;
-    font-size: 1.25rem;
 }
 
 body {
     background-color: #5A5959;
     color: white;
-}
-
-.home-btn {
-    background: no-repeat center center;
-    background-color: #868e96;
-    background-attachment: scroll;
-    background-size: cover;
-    border-radius: 50px;
-    padding: 50%;
-    margin-bottom: 10px;
-    border-color: #D9CE3F;
-}
-
-.home-btn:hover{
-    color: rgba(90, 88, 88, 0.5);
-}
-
-.background{
-    background: no-repeat center center;
-    background-color: #868e96;
-    background-attachment: scroll;
-    position: relative;
-    background-size: cover;
-    padding-top: 5px;
-    padding-bottom: 10%;
-    min-height: 100vh;
-}
-
-.navbar {
-    background-color: #D9CE3F;
-    border-radius: 8px;
-    margin: 5px 5px 0px;
-}
-
-.dropdown-item:hover {
-    background-color: #ffca2c;
-}
-
-.nav-color {
-    background-color: #D9CE3F;
 }
 
 a {
@@ -73,19 +20,6 @@ a {
 
 a:hover {
     color: #E83A14;
-}
-
-.form-group{
-    text-align: center;
-}
-
-.jumbotron {
-  display: flex;
-  align-items: center;
-  margin: 0;
-  height: 100vh;
-  color: white;
-  background-color: #5A5959;
 }
 
 .container {
@@ -98,29 +32,59 @@ a:hover {
     border-color: #D9CE3F;
 }
 
-.container-5 {
-    background-color: #5A5959;
-    margin: 3% 13%;
-    border: 1px solid transparent;
-    border-radius: 20px;
-    border-color: #D9CE3F;
+.background, .home-btn {
+    background: no-repeat center center;
+    background-color: #868e96;
+    background-attachment: scroll;
+    background-size: cover;
 }
 
-.container-center {
-    background-color: #5A5959;
-    margin: 15% 30%;
-    border: 1px solid transparent;
-    border-radius: 20px;
-    border-color: #D9CE3F;
-}
-
-.space-below-container {
-
+.background{
+    position: relative;
+    padding-top: 5px;
+    padding-bottom: 10%;
+    min-height: 100vh;
 }
 
 .heading-text {
     text-align: center;
     padding: 15px;
+}
+
+.text-margin {
+    margin: 3%;
+}
+
+/* ----------------NAVBAR---------------------- */
+
+.bigger, .nav-font {
+    font-size: 1.25rem;
+}
+
+.nav-font {
+    font-family: 'Bebas Neue', cursive;
+}
+
+.nav-color, .navbar {
+    background-color: #D9CE3F;
+}
+
+.navbar {
+    border-radius: 8px;
+    margin: 5px 5px 0px;
+}
+
+.dropdown-item:hover {
+    background-color: #ffca2c;
+}
+
+/* ----------------PAGE SPECIFIC---------------------- */
+
+.home-btn {
+    border-radius: 50px;
+    padding: 50%;
+    margin-bottom: 10px;
+    border-color: #D9CE3F;
 }
 
 .root_player_ul {
@@ -129,9 +93,27 @@ a:hover {
     padding: 0;
 }
 
+.root-faction-btn {
+    width: 100%;
+    height: 100%;
+}
+
+.about-text {
+    font-size: 3.25vmin;
+    font-weight: 300;
+}
+
+/* ----------------FORMS---------------------- */
+
+.form-group{
+    text-align: center;
+}
+
 .form {
     padding: 15px;
 }
+
+/* ----------------SPACING---------------------- */
 
 .space-above {
     margin-top: 20px;
@@ -150,9 +132,7 @@ a:hover {
    margin-top: 20px;
 }
 
-.space-around {
-    padding: 5px;
-}
+/* ----------------BUTTONS---------------------- */
 
 .btn-warning{
     background-color: #D9CE3F;
@@ -212,19 +192,7 @@ a:hover {
     border-color: #d58512;
 }
 
-#todo_text {
-    height: 30%;
-    width: 80%;
-    color: black;
-}
-
-#todo_container {
-    padding-bottom: 5px;
-}
-
-#message {
-    height: 175px;
-}
+/* ----------------FOOTER---------------------- */
 
 .footer {
     background-color: #E83A14;
@@ -253,6 +221,8 @@ a:hover {
     color: #ffc107;
 }
 
+/* ----------------OTHER---------------------- */
+
 .rounded-pic {
     border-radius: 50%;
     width: 40%;
@@ -263,39 +233,17 @@ a:hover {
     margin: 5% 5px;
 }
 
-
 .about-pic {
     width: 100%;
 }
 
-#about-container {
-    margin-top: 3%;
-}
-
-.text-margin {
-    margin: 3%;
-}
 
 .error-text {
     text-align: center;
     color: #D9CE3F;
 }
 
-.root-faction-btn {
-    width: 100%;
-    height: 100%;
-}
-
-#root-container {
-    margin-left: 20%;
-    margin-right: 20%;
-}
-
-.about-text {
-    font-size: 3.25vmin;
-    font-weight: 300;
-}
-
 .no-margin {
     margin: 0;
 }
+
