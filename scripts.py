@@ -30,8 +30,15 @@ def root_available_factions(riverfolk=False, underworld=False, marauder=False):
     return reach
 
 
-def root_exclude_factions(reach_dict):
-    pass
+def root_exclude_factions(reach_dict, factions_to_exclude):
+    for key in factions_to_exclude:
+        if factions_to_exclude[key]:
+            reach_dict.pop(key, None)
+        if key == "Vagabond (both)":
+            reach_dict.pop('Vagabond')
+            reach_dict.pop('2nd Vagabond', None)
+    return reach_dict
+
 
 def check_reach_vs_player_num(players, reach_dict):
     reach_sums = {

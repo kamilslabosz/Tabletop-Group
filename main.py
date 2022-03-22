@@ -63,7 +63,6 @@ def contact_me():
 
 # -----------------ROOT BOARDGAME--------------------------------
 
-# TODO ALLOW TO EXCLUDE FACTIONS
 @app.route('/root', methods=["GET", "POST"])
 def root_faction_assigner():
     form = RootInfoForm()
@@ -71,11 +70,30 @@ def root_faction_assigner():
                                                   underworld=form.underworld.data,
                                                   marauder=form.marauder.data)
     if form.validate_on_submit():
+        exclude_dict = {
+            'Marquise de Cat': form.cats.data,
+            'Eyrie Dynasties': form.birds.data,
+            'Woodland Alliance': form.woodland.data,
+            'Vagabond (both)': form.vagabond.data,
+            '2nd Vagabond': form.vagabond2.data,
+            'Riverfolk Company': form.otters.data,
+            'Lizard Cult': form.lizards.data,
+            'Underground Duchy': form.moles.data,
+            'Corvid Conspiracy': form.crows.data,
+            'Keepers in Iron': form.badgers.data,
+            'Lord of the Hundreds': form.rats.data,
+        }
+        session['factions'] = root_exclude_factions(reach_dict=session.get('factions'),
+                                                    factions_to_exclude=exclude_dict)
         players = form.players.data
         if int(players) > 4 and not form.riverfolk.data and not form.underworld.data and not form.marauder.data:
             return render_template('root.html', form=form, need_expansion=True)
-        # check_reach_vs_player_num(players=players, reach_dict=session['factions'])
-        return redirect(url_for('root_players', players=players))
+        enough_reach = check_reach_vs_player_num(players=players, reach_dict=session.get('factions'))
+
+        if not enough_reach:
+            return render_template('root.html', form=form, need_reach=True)
+        else:
+            return redirect(url_for('root_players', players=players))
     return render_template('root.html', form=form)
 
 
