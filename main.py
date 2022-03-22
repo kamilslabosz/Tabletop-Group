@@ -19,7 +19,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 Bootstrap(app)
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cafes.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 # db = SQLAlchemy(app)
 load_dotenv()

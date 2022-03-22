@@ -1,7 +1,7 @@
 {% import "bootstrap/wtf.html" as wtf %}
 
 {% include "header.html" %}
-<div class="background" style="background-image: url({{ url_for('static', filename='img/root-bg.jpg')}})">
+<div class="background" style="background-image: url({{ url_for('static', filename='img/root-bg.jpeg')}})">
 {% include "navbar.html" %}
 <div class="container-center" id="root-container">
       <div class="text-center">
@@ -13,9 +13,12 @@
 
             <form action method="POST" class="form" novalidate>
             {{ form.csrf_token }}
-
+            <div class="row justify-content-center">
+                  <div class="col-6">
                         {{form.players.label(class_='lead oswald')}}
                         {{form.players(class_='form-select')}}
+                  </div>
+            </div>
             <div class="row space-above-little">
                   <div class="col-12 col-sm-4 space-below">
                         {{form.riverfolk(class_='btn-check')}}
