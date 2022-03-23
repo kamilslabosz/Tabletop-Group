@@ -41,9 +41,6 @@ def about():
 def contact_me():
     form = ContactForm()
     if form.validate_on_submit():
-        name = form.name.data
-        email = form.email.data
-        message = form.message.data
         text_type = 'plain'
         with smtplib.SMTP("smtp.mail.yahoo.com", port=587) as connection:
             connection.starttls()
@@ -136,26 +133,40 @@ def root_players(players):
 
 
 # ----------------TO DO LIST-----------------------
-# TODO CHECKS COOKIES
 @app.route("/todo", methods=["GET", "POST"])
 def todo():
-    form = TodoForm()
+
+    if not session.get('enum_todo_dict'):
+        session['enum_todo_dict'] = {}
+
     if request.method == "POST":
         try:
-            session['todo_list'] += form.todo_text.data.split(",")
+            session['todo_list'] += request.form['todo_text'].split(",")
         except KeyError:
-            session['todo_list'] = form.todo_text.data.split(",")
-        session['enum_todo_list'] = enumerate(session.get('todo_list'))
-        current_list = session.get('enum_todo_list')
+            session['todo_list'] = request.form['todo_text'].split(",")
+
+        enum_todo_list = enumerate(session.get('todo_list'))
+        enum_todo_dict = session.get('enum_todo_dict')
+
+        for item in enum_todo_list:
+            try:
+                enum_todo_dict[item] = request.form[f'btn-check-outlined{item[0]}']
+            except KeyError:
+                print('error')
+                enum_todo_dict[item] = False
+
+        session['enum_todo_dict'] = enum_todo_dict
+        current_list = session.get('enum_todo_dict')
         print(current_list)
-        form.todo_text.data = ""
-        return render_template('todo.html', form=form, tasks=current_list)
-    return render_template("todo.html", form=form)
+        return render_template('todo.html', tasks=current_list)
+    current_list = session.get('enum_todo_dict')
+    return render_template("todo.html",  tasks=current_list)
 
 
 @app.route('/todo/clear', methods=["GET", "POST"])
 def clear_todo_list():
     session['todo_list'] = []
+    session['enum_todo_dict'] = {}
     return redirect(url_for('todo'))
 
 

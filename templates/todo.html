@@ -6,27 +6,34 @@
         <div class="col-10 col-lg-6">
             <div class="container space-above">
                 <div class="text-center">
+                    <form method="POST" action="/todo">
                     <div class="row">
-                        {% for num, item in tasks %}
+                        {% for num, item in tasks.keys() %}
                             <div class="col-lg-2 col-md-3 col-sm-4 space-above-item">
-                                <input type="checkbox" class="btn-check" id="btn-check-outlined{{num}}" autocomplete="off">
-                                <label class="btn btn-outline-warning" for="btn-check-outlined{{num}}"> {{ item.title() }} </label>
+                                {% if tasks[(num, item)] == 'on' %}
+                                    <input type="checkbox" class="btn-check" id="btn-check-outlined{{num}}" name="btn-check-outlined{{num}}" autocomplete="off" checked>
+                                    <label class="btn btn-outline-warning" for="btn-check-outlined{{num}}"> {{ item.title() }} </label>
+                                {% else %}
+                                    <input type="checkbox" class="btn-check" id="btn-check-outlined{{num}}" name="btn-check-outlined{{num}}" autocomplete="off">
+                                    <label class="btn btn-outline-warning" for="btn-check-outlined{{num}}"> {{ item.title() }} </label>
+                                {% endif %}
                             </div>
                             <br>
                         {% endfor %}
+
                     </div>
-                </div>
+
+
             <br>
-            <div class="text-center">
                 <h1 class="heading-text">Type your list!</h1>
                     <p class="bigger">Use "," to separate items</p>
-                <form method="POST" action="/todo">
-                    {{ form.todo_text(rows='10',cols='40') }}
+                        <textarea id="todo_text" name="todo_text" rows="10" cols="40"></textarea>
+
                     <br>
                     <input class="btn btn-warning btn-lg" id="submit" name="submit" type="submit" value="Add to list">
                 </form>
                 <a class="btn btn-warning btn-lg" href="{{url_for('clear_todo_list')}}" role="button">Clear list</a>
-            </div>
+                </div>
         </div>
     </div>
     <div class="col-1 col-lg-3"></div>
