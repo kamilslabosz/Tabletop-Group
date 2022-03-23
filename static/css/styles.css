@@ -113,6 +113,14 @@ a:hover {
     padding: 15px;
 }
 
+#todo_text {
+    width: 80%;
+}
+
+#message {
+    height: 175px;
+}
+
 /* ----------------SPACING---------------------- */
 
 .space-above {
