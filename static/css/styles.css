@@ -61,7 +61,7 @@ a:hover {
     font-size: 1.25rem;
 }
 
-.nav-font {
+.nav-font, .btn {
     font-family: 'Bebas Neue', cursive;
 }
 
@@ -180,8 +180,24 @@ a:hover {
     border-color: #D9CE3F;
 }
 
-.btn {
-    font-family: 'Bebas Neue', cursive;
+.radio-btn {
+    list-style-type: none;
+    padding: 1%;
+    width: 20px;
+    height: 20px;
+}
+
+.radio-bg {
+    background-color: #D9CE3F;
+    color: black;
+    border-radius: 8px;
+    padding-bottom: 3%
+}
+
+.form-check-input:checked {
+    background-image: none;
+    background-color: black;
+    border-color: black;
 }
 
 #submit {
@@ -244,7 +260,6 @@ a:hover {
 .about-pic {
     width: 100%;
 }
-
 
 .error-text {
     text-align: center;

@@ -1,5 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import SubmitField, BooleanField, SelectField, StringField, FieldList, FormField, TextAreaField, EmailField
+from wtforms import SubmitField, BooleanField, SelectField, StringField, FieldList, FormField, TextAreaField, \
+    EmailField, RadioField
 from wtforms.validators import DataRequired
 
 
@@ -7,7 +8,7 @@ from wtforms.validators import DataRequired
 
 
 class RootInfoForm(FlaskForm):
-    players = SelectField("Number of players?", validators=[DataRequired()], choices=['2', '3', '4', '5', '6'])
+    players = RadioField("Number of players?", choices=['2', '3', '4', '5', '6'], default='4')
     riverfolk = BooleanField("The Riverfolk expansion")
     underworld = BooleanField("The Underworld expansion")
     marauder = BooleanField("The Marauder expansion")
@@ -72,13 +73,6 @@ class Root6PlayerForm(FlaskForm):
     player4 = StringField('Player 4')
     player5 = StringField('Player 5')
     player6 = StringField('Player 6')
-    submit = SubmitField('Submit')
-
-# ------------------FORM FOR TO DO LIST ----------
-
-
-class TodoForm(FlaskForm):
-    todo_text = TextAreaField(validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 

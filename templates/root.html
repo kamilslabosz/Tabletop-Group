@@ -11,6 +11,10 @@
 
       <h1 class="heading-text">Give me some info</h1>
       {% if need_expansion %}
+      <p class="lead error-text">You need to pick number o players</p>
+      {% endif %}
+
+      {% if need_expansion %}
       <p class="lead error-text">You need at least one expansion to play with 5+ players</p>
       {% endif %}
 
@@ -21,9 +25,25 @@
             <form action method="POST" class="form" novalidate>
             {{ form.csrf_token }}
             <div class="row justify-content-center">
-                  <div class="col-6">
+                  <div class="col-12 col-lg-6 radio-bg">
                         {{form.players.label(class_='lead oswald')}}
-                        {{form.players(class_='form-select')}}
+                        <br>
+                        <div class="row justify-content-center">
+                        {% for subfield in form.players %}
+                            <div class="col-2">
+                                          {{subfield.label(class_='oswald bigger ')}}
+
+                            </div>
+                        {% endfor %}
+                        </div>
+                        <div class="row justify-content-center">
+                        {% for subfield in form.players %}
+
+                                    <div class="col-2">
+                                          {{subfield(class_='form-check-input radio-btn')}}
+                                    </div>
+                        {% endfor %}
+                        </div>
                   </div>
             </div>
             <div class="row">
