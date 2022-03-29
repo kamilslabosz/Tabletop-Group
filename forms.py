@@ -1,8 +1,22 @@
 from flask_wtf import FlaskForm
 from wtforms import SubmitField, BooleanField, SelectField, StringField, FieldList, FormField, TextAreaField, \
-    EmailField, RadioField
+    EmailField, RadioField, PasswordField
 from wtforms.validators import DataRequired
 
+
+# User Forms------------------------------------------------------------
+class RegisterForm(FlaskForm):
+    email = EmailField("Email", validators=[DataRequired()])
+    name = StringField("Name", validators=[DataRequired()])
+    password = PasswordField("Password", validators=[DataRequired()])
+    password2 = PasswordField("Repeat Password", validators=[DataRequired()])
+    submit = SubmitField("Sign Up")
+
+
+class LoginForm(FlaskForm):
+    email = StringField("Email", validators=[DataRequired()])
+    password = PasswordField("Password", validators=[DataRequired()])
+    submit = SubmitField("Log In")
 
 # Forms for Root Faction Assigner--------------------------------------------
 

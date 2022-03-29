@@ -10,17 +10,13 @@
       <div class="text-center">
 
       <h1 class="heading-text">Give me some info</h1>
-      {% if need_expansion %}
-      <p class="lead error-text">You need to pick number o players</p>
-      {% endif %}
-
-      {% if need_expansion %}
-      <p class="lead error-text">You need at least one expansion to play with 5+ players</p>
-      {% endif %}
-
-      {% if need_reach %}
-      <p class="lead error-text">Not enough reach among factions</p>
-      {% endif %}
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for message in messages %}
+           <p class="lead error-text">{{ message }}</p>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
 
             <form action method="POST" class="form" novalidate>
             {{ form.csrf_token }}
