@@ -27,7 +27,7 @@ Session(app)
 Bootstrap(app)
 Base = declarative_base()
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///website.db')\
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL?sslmode=require', 'sqlite:///website.db')\
     .replace('postgres://', 'postgresql://')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -308,7 +308,6 @@ def ttrpg_campaing_trakcer():
 
 
 # ----------BOARDGAMES COLLECTION LIBRARY-----------------------------
-# TODO CREATE DATABASE OF USER BOARDGAMES AND ALLOW BOARDGAMEGEEK COLLECTION IMPORT
 @app.route("/boardgames", methods=["GET", "POST"])
 def boardgames():
     if current_user.is_authenticated:
