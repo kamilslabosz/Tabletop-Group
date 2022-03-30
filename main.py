@@ -80,7 +80,7 @@ class GameSession(db.Model):
     num_sessions = db.Column(db.Integer)
 
 
-db.create_all()
+# db.create_all()
 
 
 def admin_only(f):
