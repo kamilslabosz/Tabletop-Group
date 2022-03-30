@@ -279,3 +279,12 @@ a:hover {
     margin-left: 10%;
     margin-right: 10%;
 }
+.small-table-text {
+    font-size: 2vmin;
+    margin-bottom: 5px;
+}
+
+#collection-table {
+    margin-left: 10%;
+    margin-right: 10%;
+}

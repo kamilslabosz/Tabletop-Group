@@ -105,3 +105,11 @@ class ContactForm(FlaskForm):
 class BGGForm(FlaskForm):
     user = StringField('BoardGameGeek Username', validators=[DataRequired()])
     submit = SubmitField('Submit')
+
+
+# --------------------------BOARD GAME COLLECTION FORMS--------------------------------
+
+
+class BGGForm(FlaskForm):
+    user = StringField('BoardGameGeek Username', validators=[DataRequired()])
+    submit = SubmitField('Submit')
