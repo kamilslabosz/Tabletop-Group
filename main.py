@@ -2,6 +2,7 @@ import smtplib
 import os
 from functools import wraps
 
+import sqlalchemy.exc
 from flask import Flask, render_template, redirect, url_for, session, request, abort, flash
 from flask_session import Session
 from flask_bootstrap import Bootstrap
@@ -15,7 +16,8 @@ from email.mime.text import MIMEText
 from dotenv import load_dotenv
 
 from forms import *
-from scripts import root_available_factions, root_assign_faction, check_reach_vs_player_num, root_exclude_factions
+from scripts import root_available_factions, root_assign_faction, check_reach_vs_player_num, root_exclude_factions, \
+    get_collection_from_bgg
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
@@ -66,7 +68,7 @@ class User(UserMixin, db.Model):
 class BoardGame(db.Model):
     __tablename__ = "board_games"
     id = db.Column(db.Integer, primary_key=True)
-    game_name = db.Column(db.String(250), unique=True, nullable=False)
+    game_name = db.Column(db.String(250), nullable=False)
     link = db.Column(db.String(250), unique=True, nullable=False)
 
 
@@ -307,12 +309,45 @@ def ttrpg_campaing_trakcer():
 
 # ----------BOARDGAMES COLLECTION LIBRARY-----------------------------
 # TODO CREATE DATABASE OF USER BOARDGAMES AND ALLOW BOARDGAMEGEEK COLLECTION IMPORT
-@app.route("/boardgames")
+@app.route("/boardgames", methods=["GET", "POST"])
 def boardgames():
-    page = "Boardgames Collection Library"
-    return render_template("work_in_progress.html", target_page=page, current_user=current_user)
+    if current_user.is_authenticated:
+        form = BGGForm()
+        if form.validate_on_submit():
+            game_collection = get_collection_from_bgg(user=form.user.data)
+
+            for game in game_collection:
+                try:
+                    edited_game = BoardGame.query.filter_by(link=game_collection[game]).first()
+                    prev_owners = edited_game.owners
+                    if current_user not in prev_owners:
+                        edited_game.owners = prev_owners + [current_user]
+                    else:
+                        pass
+
+                except AttributeError:
+                    new_game = BoardGame(
+                        game_name=game,
+                        link=game_collection[game],
+                        owners=[current_user],
+                    )
+                    db.session.add(new_game)
+
+            db.session.commit()
+            flash('Games added to collection')
+            return render_template("bg_collection.html",
+                                   form=form,
+                                   game_collection=current_user.games,
+                                   current_user=current_user)
+
+        return render_template("bg_collection.html",
+                               form=form,
+                               game_collection=current_user.games,
+                               current_user=current_user)
+    else:
+        return redirect(url_for('login'))
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
 

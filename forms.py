@@ -97,3 +97,11 @@ class ContactForm(FlaskForm):
     email = EmailField('Your email', validators=[DataRequired()])
     message = TextAreaField('Message', validators=[DataRequired()])
     submit = SubmitField('Submit')
+
+
+# --------------------------BOARD GAME COLLECTION FORMS--------------------------------
+
+
+class BGGForm(FlaskForm):
+    user = StringField('BoardGameGeek Username', validators=[DataRequired()])
+    submit = SubmitField('Submit')
