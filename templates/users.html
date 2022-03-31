@@ -17,21 +17,14 @@
                     {% endif %}
                   {% endwith %}
 
-                    {% for game in game_collection: %}
-                    <a href="{{url_for('bg_remove_from_collection', game_id=game.id) }}">✘ </a><a href="{{game.link}}" class="about-text oswald">{{game.game_name}}</a>
-                    <div>
-                        <p class="oswald small-table-text"> Owned by: </p>
-                        {% for user in game.owners: %}
-
-                            {% if current_user.name != user.name %}
-                                <a class="oswald small-table-text" href="{{url_for('user_collection', user_name=user.name) }}">{{user.name}}</a><p class="oswald small-table-text">, </p>
-                            {% else %}
-                                <a class="oswald small-table-text" href="{{url_for('boardgames')}}">You</a><p class="oswald small-table-text">, </p>
-                            {% endif %}
-
-                        {% endfor %}
-                    </div>
+                    {% for user in all_users: %}
+                      {% if current_user.id == 1 %}
+                        <a href="{{url_for('delete_user', user_id=user.id) }}">✘ </a>
+                      {% endif %}
+                        <a class="about-text oswald" href="{{url_for('user_collection', user_name=user.name) }}">{{user.name}}</a>
+                        <br>
                     {% endfor %}
+
                 </div>
                 {% if form %}
                 <div class="text-center">

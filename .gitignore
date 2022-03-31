@@ -20,6 +20,7 @@ docs/_build/
 .vscode
 /static/img/temp/
 /templates/page_template.html
+/website.db
 
 # Coverage reports
 htmlcov/

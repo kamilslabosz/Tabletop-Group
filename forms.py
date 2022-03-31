@@ -1,13 +1,13 @@
 from flask_wtf import FlaskForm
 from wtforms import SubmitField, BooleanField, SelectField, StringField, FieldList, FormField, TextAreaField, \
     EmailField, RadioField, PasswordField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Email, Length
 
 
 # User Forms------------------------------------------------------------
 class RegisterForm(FlaskForm):
-    email = EmailField("Email", validators=[DataRequired()])
-    name = StringField("Name", validators=[DataRequired()])
+    email = EmailField("Email", validators=[DataRequired(), Email()])
+    name = StringField("Name", validators=[DataRequired(), Length(min=4, max=10)])
     password = PasswordField("Password", validators=[DataRequired()])
     password2 = PasswordField("Repeat Password", validators=[DataRequired()])
     submit = SubmitField("Sign Up")
@@ -17,6 +17,13 @@ class LoginForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired()])
     password = PasswordField("Password", validators=[DataRequired()])
     submit = SubmitField("Log In")
+
+
+class PasswordChangeForm(FlaskForm):
+    password = PasswordField("New Password", validators=[DataRequired()])
+    password2 = PasswordField("Repeat New Password", validators=[DataRequired()])
+    submit = SubmitField("Change Password")
+
 
 # Forms for Root Faction Assigner--------------------------------------------
 
@@ -103,13 +110,5 @@ class ContactForm(FlaskForm):
 
 
 class BGGForm(FlaskForm):
-    user = StringField('BoardGameGeek Username', validators=[DataRequired()])
-    submit = SubmitField('Submit')
-
-
-# --------------------------BOARD GAME COLLECTION FORMS--------------------------------
-
-
-class BGGForm(FlaskForm):
-    user = StringField('BoardGameGeek Username', validators=[DataRequired()])
+    user = StringField('Your BoardGameGeek Username', validators=[DataRequired()])
     submit = SubmitField('Submit')

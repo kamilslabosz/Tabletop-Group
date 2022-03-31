@@ -23,6 +23,9 @@
           </li>
           {% else: %}
           <li class="nav-item">
+            <a class="nav-link nav-font" href="{{url_for('user_settings')}}">{{ current_user.name }}</a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link nav-font" href="{{ url_for('logout') }}">Log Out</a>
           </li>
           {% endif %}
@@ -36,6 +39,18 @@
           </ul>
 
         </li>
+        {% if current_user.is_authenticated: %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle nav-font" href="#" id="navbarDropdownBG" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            BGC
+          </a>
+          <ul class="dropdown-menu nav-color" aria-labelledby="navbarDropdownBG">
+            <li><a class="dropdown-item nav-color nav-font"  href="{{ url_for('bg_all_games') }}">All Games</a></li>
+            <li><a class="dropdown-item nav-color nav-font" href="{{ url_for('all_users') }}">All uses</a></li>
+          </ul>
+
+        </li>
+        {% endif %}
 
       </ul>
     </div>

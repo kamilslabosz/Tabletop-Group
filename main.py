@@ -27,7 +27,7 @@ Session(app)
 Bootstrap(app)
 Base = declarative_base()
 
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///website.db')\
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///website.db') \
     .replace('postgres://', 'postgresql://')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -89,6 +89,7 @@ def admin_only(f):
         if current_user.id != 1:
             return abort(403)
         return f(*args, **kwargs)
+
     return decorated_function
 
 
@@ -176,6 +177,32 @@ def login():
             return redirect(url_for('home'))
     return render_template("login.html", form=form, current_user=current_user)
 
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
+
+
+@app.route("/settings", methods=["GET", "POST"])
+def user_settings():
+    form = PasswordChangeForm()
+    if form.validate_on_submit():
+        if form.password.data != form.password2.data:
+            flash("Passwords don't match")
+        else:
+            new_password = generate_password_hash(
+                form.password.data,
+                method='pbkdf2:sha256',
+                salt_length=8
+            )
+            current_user.password = new_password
+            db.session.commit()
+            flash('Password changed')
+        redirect(url_for('user_settings'))
+    return render_template('settings.html', form=form, current_user=current_user)
+
+
 # -----------------ROOT BOARDGAME--------------------------------
 
 
@@ -253,18 +280,11 @@ def root_players(players):
     return render_template('root_players.html', form=form, current_user=current_user)
 
 
-@app.route('/logout')
-def logout():
-    logout_user()
-    return redirect(url_for('home'))
-
-
 # ----------------TO DO LIST-----------------------
 
 
 @app.route("/todo", methods=["GET", "POST"])
 def todo():
-
     if not session.get('enum_todo_dict'):
         session['enum_todo_dict'] = {}
 
@@ -289,7 +309,7 @@ def todo():
         print(current_list)
         return render_template('todo.html', tasks=current_list, current_user=current_user)
     current_list = session.get('enum_todo_dict')
-    return render_template("todo.html",  tasks=current_list, current_user=current_user)
+    return render_template("todo.html", tasks=current_list, current_user=current_user)
 
 
 @app.route('/todo/clear', methods=["GET", "POST"])
@@ -347,6 +367,58 @@ def boardgames():
         return redirect(url_for('login'))
 
 
+@app.route("/boardgames/remove/<int:game_id>", methods=["GET", "POST"])
+def bg_remove_from_collection(game_id):
+    game = BoardGame.query.get(game_id)
+    new_owners = []
+    for owner in game.owners:
+        if owner != current_user:
+            new_owners.append(owner)
+    game.owners = new_owners
+    db.session.commit()
+    return redirect(url_for('boardgames'))
+
+
+@app.route("/boardgames/delete", methods=["GET", "POST"])
+def bg_delete_collection():
+    current_user.games = []
+    db.session.commit()
+    return redirect(url_for('boardgames'))
+
+
+@app.route("/boardgames/all", methods=["GET", "POST"])
+def bg_all_games():
+    all_games = BoardGame.query.order_by(BoardGame.game_name).all()
+    return render_template("bg_collection.html",
+                           game_collection=all_games,
+                           current_user=current_user)
+
+
+@app.route("/boardgames/<user_name>", methods=["GET", "POST"])
+def user_collection(user_name):
+    user = User.query.filter_by(name=user_name).first()
+    return render_template("bg_collection.html",
+                           game_collection=user.games,
+                           current_user=current_user)
+
+
+@app.route("/users", methods=["GET", "POST"])
+def all_users():
+    all_users = User.query.order_by(User.name).all()
+    return render_template("users.html",
+                           all_users=all_users,
+                           current_user=current_user)
+
+
+@app.route("/users/delete/<int:user_id>", methods=["GET", "POST"])
+def delete_user(user_id):
+    user = User.query.get(user_id)
+    user.games = []
+    user.rpg_sessions = []
+    db.session.delete(user)
+    db.session.commit()
+    return redirect(url_for('all_users'))
+
+
 if __name__ == '__main__':
     app.run()
-
