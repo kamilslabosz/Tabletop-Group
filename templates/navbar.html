@@ -14,6 +14,11 @@
         <li class="nav-item">
           <a class="nav-link nav-font" href="{{ url_for('contact_me') }}">Contact</a>
         </li>
+        {% if current_user.id==1: %}
+          <li class="nav-item">
+            <a class="nav-link nav-font" href="{{ url_for('admin_panel') }}">Admin Panel</a>
+          </li>
+        {% endif %}
         {% if not current_user.is_authenticated: %}
           <li class="nav-item">
             <a class="nav-link nav-font" href="{{ url_for('login') }}">Login</a>

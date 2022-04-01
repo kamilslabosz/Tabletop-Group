@@ -21,6 +21,7 @@ docs/_build/
 /static/img/temp/
 /templates/page_template.html
 /website.db
+/flask_session/
 
 # Coverage reports
 htmlcov/

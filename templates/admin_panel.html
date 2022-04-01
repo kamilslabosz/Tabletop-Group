@@ -1,0 +1,29 @@
+{% include "header.html" %}
+<div class="background" style="background-image: url({{ url_for('static', filename='img/work-in-progress-bg.jpg')}})">
+{% include "navbar.html" %}
+<div class="row no-margin">
+        <div class="col-1 col-lg-3"></div>
+        <div class="col-10 col-lg-6">
+            <div class="container text-center space-above">
+                <h1 class="display-4">Admin Panel</h1>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                      {% for message in messages %}
+                       <p class="lead error-text">{{ message }}</p>
+                      {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <h1>Site options</h1>
+                <a class="btn btn-warning space-below" href="{{ url_for('wipe_unowned_games') }}" role="button">Wipe games without owners</a>
+                <h1>User options</h1>
+                <a class="btn btn-warning space-below" href="{{ url_for('all_users') }}" role="button">Show and manage all users</a>
+
+
+            </div>
+        </div>
+        <div class="col-1 col-lg-3"></div>
+
+    </div>
+
+{% include 'footer.html'%}
+</div>

@@ -133,6 +133,12 @@ def contact_me():
 # ------------------------ADMIN---------------------------------
 
 
+@app.route("/admin", methods=["GET", "POST"])
+@admin_only
+def admin_panel():
+    return render_template('admin_panel.html', current_user=current_user)
+
+
 @app.route("/users/delete/<int:user_id>", methods=["GET", "POST"])
 @admin_only
 def delete_user(user_id):
@@ -146,15 +152,16 @@ def delete_user(user_id):
     return redirect(url_for('all_users'))
 
 
-@app.route("/wipe", methods=["GET", "POST"])
+@app.route("/admin/wipe", methods=["GET", "POST"])
 @admin_only
 def wipe_unowned_games():
     all_games = BoardGame.query.all()
     for game in all_games:
         if not game.owners:
             db.session.delete(game)
-        db.session.commit()
-    return redirect(url_for('home'))
+    db.session.commit()
+    flash("Unowned games wiped from database")
+    return redirect(url_for('admin_panel'))
 
 
 # -------------------------------USERS---------------------------
