@@ -146,6 +146,17 @@ def delete_user(user_id):
     return redirect(url_for('all_users'))
 
 
+@app.route("/wipe", methods=["GET", "POST"])
+@admin_only
+def wipe_unowned_games():
+    all_games = BoardGame.query.all()
+    for game in all_games:
+        if not game.owners:
+            db.session.delete(game)
+        db.session.commit()
+    return redirect(url_for('home'))
+
+
 # -------------------------------USERS---------------------------
 
 
@@ -358,9 +369,9 @@ def boardgames():
     if form.validate_on_submit():
         game_collection = get_collection_from_bgg(user=form.user.data)
 
-        for game in game_collection:
+        for link in game_collection:
             try:
-                edited_game = BoardGame.query.filter_by(link=game_collection[game]).first()
+                edited_game = BoardGame.query.filter_by(link=link).first()
                 prev_owners = edited_game.owners
                 if current_user not in prev_owners:
                     edited_game.owners = prev_owners + [current_user]
@@ -369,8 +380,8 @@ def boardgames():
 
             except AttributeError:
                 new_game = BoardGame(
-                    game_name=game,
-                    link=game_collection[game],
+                    game_name=game_collection[link],
+                    link=link,
                     owners=[current_user],
                 )
                 db.session.add(new_game)
@@ -420,7 +431,6 @@ def bg_all_games():
 
 
 @app.route("/boardgames/<user_name>", methods=["GET", "POST"])
-@user_only
 def user_collection(user_name):
     user = User.query.filter_by(name=user_name).first()
     if not current_user.games.first():
