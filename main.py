@@ -2,14 +2,12 @@ import smtplib
 import os
 from functools import wraps
 
-import sqlalchemy.exc
 from flask import Flask, render_template, redirect, url_for, session, request, abort, flash
 from flask_session import Session
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import Table, Column, Integer, ForeignKey
-from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 from email.mime.text import MIMEText
@@ -61,14 +59,14 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
     name = db.Column(db.String(100), unique=True)
-    games = db.relationship("BoardGame", secondary=bg_association_table, backref="owners")
-    rpg_sessions = db.relationship("GameSession", secondary=rpg_association_table, backref="players")
+    games = db.relationship("BoardGame", secondary=bg_association_table, backref="owners", lazy='dynamic')
+    rpg_sessions = db.relationship("GameSession", secondary=rpg_association_table, backref="players", lazy='dynamic')
 
 
 class BoardGame(db.Model):
     __tablename__ = "board_games"
     id = db.Column(db.Integer, primary_key=True)
-    game_name = db.Column(db.String(250), nullable=False)
+    game_name = db.Column(db.String(250), unique=False, nullable=False)
     link = db.Column(db.String(250), unique=True, nullable=False)
 
 
@@ -89,7 +87,15 @@ def admin_only(f):
         if current_user.id != 1:
             return abort(403)
         return f(*args, **kwargs)
+    return decorated_function
 
+
+def user_only(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not current_user.is_authenticated:
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
     return decorated_function
 
 
@@ -122,6 +128,22 @@ def contact_me():
         return render_template('contact.html', sent=True, current_user=current_user)
 
     return render_template("contact.html", form=form, current_user=current_user)
+
+
+# ------------------------ADMIN---------------------------------
+
+
+@app.route("/users/delete/<int:user_id>", methods=["GET", "POST"])
+@admin_only
+def delete_user(user_id):
+    if current_user.id == user_id:
+        return abort(403)
+    user = User.query.get(user_id)
+    user.games = []
+    user.rpg_sessions = []
+    db.session.delete(user)
+    db.session.commit()
+    return redirect(url_for('all_users'))
 
 
 # -------------------------------USERS---------------------------
@@ -185,6 +207,7 @@ def logout():
 
 
 @app.route("/settings", methods=["GET", "POST"])
+@user_only
 def user_settings():
     form = PasswordChangeForm()
     if form.validate_on_submit():
@@ -329,45 +352,45 @@ def ttrpg_campaing_trakcer():
 
 # ----------BOARDGAMES COLLECTION LIBRARY-----------------------------
 @app.route("/boardgames", methods=["GET", "POST"])
+@user_only
 def boardgames():
-    if current_user.is_authenticated:
-        form = BGGForm()
-        if form.validate_on_submit():
-            game_collection = get_collection_from_bgg(user=form.user.data)
+    form = BGGForm()
+    if form.validate_on_submit():
+        game_collection = get_collection_from_bgg(user=form.user.data)
 
-            for game in game_collection:
-                try:
-                    edited_game = BoardGame.query.filter_by(link=game_collection[game]).first()
-                    prev_owners = edited_game.owners
-                    if current_user not in prev_owners:
-                        edited_game.owners = prev_owners + [current_user]
-                    else:
-                        pass
+        for game in game_collection:
+            try:
+                edited_game = BoardGame.query.filter_by(link=game_collection[game]).first()
+                prev_owners = edited_game.owners
+                if current_user not in prev_owners:
+                    edited_game.owners = prev_owners + [current_user]
+                else:
+                    pass
 
-                except AttributeError:
-                    new_game = BoardGame(
-                        game_name=game,
-                        link=game_collection[game],
-                        owners=[current_user],
-                    )
-                    db.session.add(new_game)
+            except AttributeError:
+                new_game = BoardGame(
+                    game_name=game,
+                    link=game_collection[game],
+                    owners=[current_user],
+                )
+                db.session.add(new_game)
 
-            db.session.commit()
-            flash('Games added to collection')
-            return render_template("bg_collection.html",
-                                   form=form,
-                                   game_collection=current_user.games,
-                                   current_user=current_user)
-
+        db.session.commit()
+        flash('Games added to collection')
         return render_template("bg_collection.html",
                                form=form,
-                               game_collection=current_user.games,
+                               game_collection=current_user.games.order_by(BoardGame.game_name),
                                current_user=current_user)
-    else:
-        return redirect(url_for('login'))
+    if not current_user.games.first():
+        flash("Collection is empty... :(")
+    return render_template("bg_collection.html",
+                           form=form,
+                           game_collection=current_user.games.order_by(BoardGame.game_name),
+                           current_user=current_user)
 
 
 @app.route("/boardgames/remove/<int:game_id>", methods=["GET", "POST"])
+@user_only
 def bg_remove_from_collection(game_id):
     game = BoardGame.query.get(game_id)
     new_owners = []
@@ -380,6 +403,7 @@ def bg_remove_from_collection(game_id):
 
 
 @app.route("/boardgames/delete", methods=["GET", "POST"])
+@user_only
 def bg_delete_collection():
     current_user.games = []
     db.session.commit()
@@ -387,6 +411,7 @@ def bg_delete_collection():
 
 
 @app.route("/boardgames/all", methods=["GET", "POST"])
+@user_only
 def bg_all_games():
     all_games = BoardGame.query.order_by(BoardGame.game_name).all()
     return render_template("bg_collection.html",
@@ -395,29 +420,23 @@ def bg_all_games():
 
 
 @app.route("/boardgames/<user_name>", methods=["GET", "POST"])
+@user_only
 def user_collection(user_name):
     user = User.query.filter_by(name=user_name).first()
+    if not current_user.games.first():
+        flash("Collection is empty... :(")
     return render_template("bg_collection.html",
                            game_collection=user.games,
                            current_user=current_user)
 
 
 @app.route("/users", methods=["GET", "POST"])
+@user_only
 def all_users():
-    all_users = User.query.order_by(User.name).all()
+    all_users_db = User.query.order_by(User.name).all()
     return render_template("users.html",
-                           all_users=all_users,
+                           all_users=all_users_db,
                            current_user=current_user)
-
-
-@app.route("/users/delete/<int:user_id>", methods=["GET", "POST"])
-def delete_user(user_id):
-    user = User.query.get(user_id)
-    user.games = []
-    user.rpg_sessions = []
-    db.session.delete(user)
-    db.session.commit()
-    return redirect(url_for('all_users'))
 
 
 if __name__ == '__main__':

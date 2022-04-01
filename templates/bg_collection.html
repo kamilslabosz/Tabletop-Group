@@ -17,6 +17,10 @@
                     {% endif %}
                   {% endwith %}
 
+                    {% if not game_collection: %}
+                       <h1 class="display-4">Nothing here... :(</h1>
+                    {% endif %}
+
                     {% for game in game_collection: %}
                     <a href="{{url_for('bg_remove_from_collection', game_id=game.id) }}">✘ </a><a href="{{game.link}}" class="about-text oswald">{{game.game_name}}</a>
                     <div>

@@ -36,6 +36,8 @@
           <ul class="dropdown-menu nav-color" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item nav-color nav-font"  href="{{ url_for('root_faction_assigner') }}">Root Boardgame</a></li>
             <li><a class="dropdown-item nav-color nav-font" href="{{ url_for('todo') }}">Todo list</a></li>
+            <li><a class="dropdown-item nav-color nav-font"  href="{{ url_for('boardgames') }}">BG Collection</a></li>
+
           </ul>
 
         </li>
@@ -45,8 +47,9 @@
             BGC
           </a>
           <ul class="dropdown-menu nav-color" aria-labelledby="navbarDropdownBG">
+            <li><a class="dropdown-item nav-color nav-font"  href="{{ url_for('boardgames') }}">Your Collection</a></li>
             <li><a class="dropdown-item nav-color nav-font"  href="{{ url_for('bg_all_games') }}">All Games</a></li>
-            <li><a class="dropdown-item nav-color nav-font" href="{{ url_for('all_users') }}">All uses</a></li>
+            <li><a class="dropdown-item nav-color nav-font" href="{{ url_for('all_users') }}">All users</a></li>
           </ul>
 
         </li>
