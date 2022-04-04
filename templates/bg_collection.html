@@ -22,7 +22,12 @@
                     {% endif %}
 
                     {% for game in game_collection: %}
-                    <a href="{{url_for('bg_remove_from_collection', game_id=game.id) }}">✘ </a><a href="{{game.link}}" class="about-text oswald">{{game.game_name}}</a>
+                    <a href="{{url_for('bg_remove_from_collection', game_id=game.id) }}">✘ </a>
+                    {% if current_user.id == 1 %}
+                        <a href="{{ url_for('edit_bgame', game_id=game.id )}}"><i class="fa-solid fa-pen-to-square"></i> </a>
+                    {% endif %}
+                    <a href="{{game.link}}" class="about-text oswald">{{game.game_name}}</a>
+
                     <div>
                         <p class="oswald small-table-text"> Owned by: </p>
                         {% for user in game.owners: %}

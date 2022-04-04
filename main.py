@@ -561,5 +561,20 @@ def all_users():
                            current_user=current_user)
 
 
+@app.route("/boardgame/edit/<int:game_id>", methods=["GET", "POST"])
+@admin_only
+def edit_bgame(game_id):
+    game = BoardGame.query.get(game_id)
+    form = BGEditForm(
+        name=game.game_name
+    )
+    if form.validate_on_submit():
+        game.game_name = form.name.data
+        db.session.commit()
+        return redirect(url_for('bg_all_games'))
+
+    return render_template('add_campaign.html', form=form, current_user=current_user)
+
+
 if __name__ == '__main__':
     app.run(debug=True)

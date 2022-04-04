@@ -115,7 +115,8 @@ class BGGForm(FlaskForm):
 
 
 class BGEditForm(FlaskForm):
-    pass
+    name = StringField('Game title', validators=[DataRequired()])
+    submit = SubmitField('Submit')
 
 
 # --------------------------TTRPG CAMPAIGN TRACKER FORMS----------------------------
