@@ -1,0 +1,45 @@
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% include "header.html" %}
+<div class="background" style="background-image: url({{ url_for('static', filename='img/ttrpg-bg.jpg')}})">
+
+{% include "navbar.html" %}
+<div class="row no-margin">
+        <div class="col-1 col-lg-3"></div>
+        <div class="col-10 col-lg-6">
+            <div class="container space-above text-center">
+                <h1>{{game.game_name}}</h1>
+                <p class="lead">System: {{game.game_system}}</p>
+                {% if not game.game_master %}
+                <p class="lead">GM: <a href="#"><i class="fa-solid fa-plus"></i></a></p>
+                {% else %}
+                <p class="lead">GM: {{game.game_master.name}}</p>
+                {% endif %}
+                <p class="lead">Number of sessions: {{game.num_sessions}}</p>
+                <p class="lead">Experience points: {{game.exp_points}}</p>
+                <p class="lead">Last played: {{ game.last_played }}</p>
+                <br>
+
+                <p class="lead no-margin">Players <a href="#"><i class="fa-solid fa-plus"></i></a></p>
+                {% for user in game.players %}
+                    <p class="oswald small-table-text">{{ user.name }}</p>
+                {% endfor %}
+
+                {% if game.players != [] %}
+                    <br>
+                {% endif %}
+
+                <p class="lead no-margin">Sessions <a href="{{url_for('add_session_to_campaign', campaign_id=game.id)}}"><i class="fa-solid fa-plus"></i></a></p>
+                {% for session in sessions: %}
+                    <p class="oswald small-table-text">Date: {{ session.date }} Exp: {{ session.exp_points }}</p>
+                    <br>
+                {% endfor %}
+
+            </div>
+        </div>
+        <div class="col-1 col-lg-3"></div>
+
+    </div>
+
+{% include 'footer.html'%}
+</div>

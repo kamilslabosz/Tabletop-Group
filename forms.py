@@ -112,3 +112,25 @@ class ContactForm(FlaskForm):
 class BGGForm(FlaskForm):
     user = StringField('Your BoardGameGeek Username', validators=[DataRequired()])
     submit = SubmitField('Submit')
+
+
+# --------------------------TTRPG CAMPAIGN TRACKER FORMS----------------------------
+
+
+class AddCampaignForm(FlaskForm):
+    name = StringField('Name of campaign', validators=[DataRequired()])
+    game_system = StringField('Game system', validators=[DataRequired()])
+    number_of_games = StringField('Number of sessions played', validators=[DataRequired()], default="0")
+    exp_points = StringField('Number of experience collected', validators=[DataRequired()], default="0")
+    gm_or_player = SelectField('Are you the GM or player?', validators=[DataRequired()],
+                               choices=['Game Master', 'Player'])
+    submit = SubmitField('Submit')
+
+
+class EditCampaign(FlaskForm):
+    pass
+
+
+class AddSessionForm(FlaskForm):
+    exp_points = StringField('Experience points earned', validators=[DataRequired()], default='0')
+    submit = SubmitField('Submit')

@@ -1,0 +1,44 @@
+{% include "header.html" %}
+<div class="background" style="background-image: url({{ url_for('static', filename='img/ttrpg-bg.jpg')}})">
+{% include "navbar.html" %}
+<div class="row no-margin">
+        <div class="col-1 col-lg-3"></div>
+        <div class="col-10 col-lg-6">
+            <div class="container text-center space-above">
+                <h1>Your games</h1>
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                      {% for message in messages %}
+                       <p class="lead error-text">{{ message }}</p>
+                      {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <br>
+                <h1>As Game Master</h1>
+                <div>
+                {% for game in games_as_gm: %}
+                    <a class="about-text oswald" href="{{url_for('show_campaign', campaign_id=game.id)}}">{{game.game_name}}</a>
+                    <p class="oswald small-table-text">{{game.game_system}}</p>
+                    <a href="{{url_for('add_session_to_campaign', campaign_id=game.id)}}"><i class="fa-solid fa-plus"></i></a>
+
+                {% endfor %}
+                </div>
+                
+                <h1>As Player</h1>
+                <div>
+                {% for game in games_as_player: %}
+                    <a class="about-text oswald" href="{{url_for('show_campaign', campaign_id=game.id)}}">{{game.game_name}}</a>
+                    <p class="oswald small-table-text">{{game.game_system}}</p>
+                {% endfor %}
+                </div>
+                
+                <a class="btn btn-warning space-below" href="{{ url_for('ttrpg_add_campaign') }}" role="button">Add Campaign</a>
+
+            </div>
+        </div>
+        <div class="col-1 col-lg-3"></div>
+
+    </div>
+
+{% include 'footer.html'%}
+</div>

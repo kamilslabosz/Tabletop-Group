@@ -1,8 +1,11 @@
 import smtplib
 import os
 from functools import wraps
+from datetime import date
 
 from flask import Flask, render_template, redirect, url_for, session, request, abort, flash
+from sqlalchemy.orm import relationship
+
 from flask_session import Session
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
@@ -49,7 +52,7 @@ bg_association_table = db.Table('bg_association',
 
 rpg_association_table = db.Table('rpg_association',
                                  db.Column('user_id', ForeignKey('users.id'), primary_key=True),
-                                 db.Column('rpg_sessions_id', ForeignKey('rpg_sessions.id'), primary_key=True)
+                                 db.Column('rpg_campaign_id', ForeignKey('rpg_campaign.id'), primary_key=True)
                                  )
 
 
@@ -60,7 +63,8 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(100))
     name = db.Column(db.String(100), unique=True)
     games = db.relationship("BoardGame", secondary=bg_association_table, backref="owners", lazy='dynamic')
-    rpg_sessions = db.relationship("GameSession", secondary=rpg_association_table, backref="players", lazy='dynamic')
+    rpg_campaign = db.relationship("RPGCampaign", secondary=rpg_association_table, backref="players", lazy='dynamic')
+    gm_in_games = relationship('RPGCampaign', back_populates='game_master')
 
 
 class BoardGame(db.Model):
@@ -70,15 +74,28 @@ class BoardGame(db.Model):
     link = db.Column(db.String(250), unique=True, nullable=False)
 
 
-class GameSession(db.Model):
-    __tablename__ = "rpg_sessions"
+class RPGCampaign(db.Model):
+    __tablename__ = "rpg_campaign"
     id = db.Column(db.Integer, primary_key=True)
     game_name = db.Column(db.String(250), unique=True, nullable=False)
     game_system = db.Column(db.String(250), nullable=False)
     num_sessions = db.Column(db.Integer)
+    exp_points = db.Column(db.Integer)
+    sessions = relationship('GameSession', back_populates='campaign')
+    last_played = db.Column(db.String(100))
+    game_master_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    game_master = relationship('User', back_populates='gm_in_games')
 
 
-# db.create_all()
+class GameSession(db.Model):
+    __tablename__ = "rpg_sessions"
+    id = db.Column(db.Integer, primary_key=True)
+    exp_points = db.Column(db.Integer)
+    date = db.Column(db.String(100))
+    campaign_id = db.Column(db.Integer, db.ForeignKey("rpg_campaign.id"))
+    campaign = relationship('RPGCampaign', back_populates='sessions')
+
+db.create_all()
 
 
 def admin_only(f):
@@ -146,7 +163,7 @@ def delete_user(user_id):
         return abort(403)
     user = User.query.get(user_id)
     user.games = []
-    user.rpg_sessions = []
+    user.rpg_campaign = []
     db.session.delete(user)
     db.session.commit()
     return redirect(url_for('all_users'))
@@ -361,14 +378,76 @@ def clear_todo_list():
 
 
 # ----------TTRPG CAMPAIGN TRACKER-----------------------------
+
 # TODO CREATE DATABASE OF USER GAMES AND ALLOW TO TRACK NUMBER OF SESSIONS
 @app.route("/ttrpg")
-def ttrpg_campaing_trakcer():
-    page = "Tabletop RPG Campaign Tracker"
-    return render_template("work_in_progress.html", target_page=page, current_user=current_user)
+@user_only
+def ttrpg_campaign_tracker():
+    if not current_user.rpg_campaign.first():
+        flash("Collection is empty... :(")
+    games_as_gm = current_user.gm_in_games
+    games_as_player = current_user.rpg_campaign
+    return render_template("campaign_tracker.html", games_as_player=games_as_player,
+                           games_as_gm=games_as_gm, current_user=current_user)
+
+
+@app.route("/ttrpg/add", methods=["GET", "POST"])
+@user_only
+def ttrpg_add_campaign():
+    form = AddCampaignForm()
+    if form.validate_on_submit():
+        new_game = RPGCampaign(
+            game_name=form.name.data,
+            game_system=form.game_system.data,
+            num_sessions=int(form.number_of_games.data),
+            exp_points=int(form.exp_points.data),
+        )
+        if form.gm_or_player.data == 'Player':
+            new_game.players = [current_user]
+        elif form.gm_or_player.data == 'Game Master':
+            new_game.game_master = current_user
+        else:
+            flash('Something went wrong')
+            return redirect(url_for('ttrpg_add_campaign'))
+        flash('Campaign added')
+        db.session.add(new_game)
+        db.session.commit()
+        return redirect(url_for('ttrpg_campaign_tracker'))
+    return render_template('add_campaign.html', form=form, current_user=current_user)
+
+
+@app.route("/ttrpg/add/<int:campaign_id>", methods=["GET", "POST"])
+@user_only
+def add_session_to_campaign(campaign_id):
+    campaign = RPGCampaign.query.get(campaign_id)
+    form = AddSessionForm()
+    if form.validate_on_submit():
+        new_session = GameSession(
+            exp_points=form.exp_points.data,
+            date=date.today().strftime("%d.%m.%Y"),
+            campaign=campaign,
+        )
+        db.session.add(new_session)
+
+        campaign.last_played = date.today().strftime("%d.%m.%Y")
+        campaign.exp_points += int(form.exp_points.data)
+        campaign.num_sessions += 1
+        db.session.commit()
+        return redirect(url_for('ttrpg_campaign_tracker'))
+
+    return render_template('add_campaign.html', form=form, current_user=current_user)
+
+
+@app.route("/ttrpg/show/<int:campaign_id>")
+def show_campaign(campaign_id):
+    sessions = GameSession.query.filter_by(campaign_id=campaign_id).order_by(GameSession.date.desc())
+    return render_template('game_page.html', game=RPGCampaign.query.get(campaign_id),
+                           sessions=sessions, current_user=current_user)
 
 
 # ----------BOARDGAMES COLLECTION LIBRARY-----------------------------
+
+
 @app.route("/boardgames", methods=["GET", "POST"])
 @user_only
 def boardgames():
@@ -443,7 +522,7 @@ def user_collection(user_name):
     if not current_user.games.first():
         flash("Collection is empty... :(")
     return render_template("bg_collection.html",
-                           game_collection=user.games,
+                           game_collection=user.games.order_by(BoardGame.game_name),
                            current_user=current_user)
 
 
@@ -457,4 +536,4 @@ def all_users():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
