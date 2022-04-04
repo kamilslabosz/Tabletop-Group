@@ -114,6 +114,10 @@ class BGGForm(FlaskForm):
     submit = SubmitField('Submit')
 
 
+class BGEditForm(FlaskForm):
+    pass
+
+
 # --------------------------TTRPG CAMPAIGN TRACKER FORMS----------------------------
 
 
@@ -133,4 +137,9 @@ class EditCampaign(FlaskForm):
 
 class AddSessionForm(FlaskForm):
     exp_points = StringField('Experience points earned', validators=[DataRequired()], default='0')
+    submit = SubmitField('Submit')
+
+
+class PlayerOrGMForm(FlaskForm):
+    name = StringField('Username of player or GM', validators=[DataRequired()])
     submit = SubmitField('Submit')

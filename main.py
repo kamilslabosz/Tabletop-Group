@@ -445,6 +445,32 @@ def show_campaign(campaign_id):
                            sessions=sessions, current_user=current_user)
 
 
+@app.route("/ttrpg/<int:campaign_id>/<what>", methods=["GET", "POST"])
+@user_only
+def add_player_or_gm(campaign_id, what):
+    form = PlayerOrGMForm()
+    if form.validate_on_submit():
+        campaign = RPGCampaign.query.get(campaign_id)
+        user = User.query.filter_by(name=form.name.data).first()
+
+        if not user:
+            flash("There's no user with this name in database")
+            return render_template('add_campaign.html', form=form, current_user=current_user)
+
+        if what == "player":
+            prev_players = campaign.players
+            if user not in prev_players:
+                campaign.players = prev_players + [user]
+        elif what == 'game_master':
+            campaign.game_master = user
+        else:
+            flash('Something went wrong')
+        db.session.commit()
+        return redirect(url_for('show_campaign', campaign_id=campaign_id))
+
+    return render_template('add_campaign.html', form=form, current_user=current_user)
+
+
 # ----------BOARDGAMES COLLECTION LIBRARY-----------------------------
 
 
