@@ -95,7 +95,8 @@ class GameSession(db.Model):
     campaign_id = db.Column(db.Integer, db.ForeignKey("rpg_campaign.id"))
     campaign = relationship('RPGCampaign', back_populates='sessions')
 
-# db.create_all()
+
+db.create_all()
 
 
 def admin_only(f):
