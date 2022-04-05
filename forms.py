@@ -1,7 +1,15 @@
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed
 from wtforms import SubmitField, BooleanField, SelectField, StringField, FieldList, FormField, TextAreaField, \
     EmailField, RadioField, PasswordField
 from wtforms.validators import DataRequired, Email, Length
+
+
+# Admin Forms--------------------------------------------
+class UploadCSVForm(FlaskForm):
+    file = FileField(FileAllowed(['csv']))
+    campaign_name = StringField('Name of campaign', validators=[DataRequired()])
+    submit = SubmitField("Send file")
 
 
 # User Forms------------------------------------------------------------
@@ -138,6 +146,7 @@ class EditCampaign(FlaskForm):
 
 class AddSessionForm(FlaskForm):
     exp_points = StringField('Experience points earned', validators=[DataRequired()], default='0')
+    date = StringField('Date of session', validators=[DataRequired()], default='0')
     submit = SubmitField('Submit')
 
 

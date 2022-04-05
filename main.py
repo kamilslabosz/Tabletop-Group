@@ -95,7 +95,7 @@ class GameSession(db.Model):
     campaign_id = db.Column(db.Integer, db.ForeignKey("rpg_campaign.id"))
     campaign = relationship('RPGCampaign', back_populates='sessions')
 
-db.create_all()
+# db.create_all()
 
 
 def admin_only(f):
@@ -416,26 +416,42 @@ def ttrpg_add_campaign():
     return render_template('add_campaign.html', form=form, current_user=current_user)
 
 
-@app.route("/ttrpg/add/<int:campaign_id>", methods=["GET", "POST"])
+@app.route("/ttrpg/add-manually/<int:campaign_id>", methods=["GET", "POST"])
 @user_only
 def add_session_to_campaign(campaign_id):
     campaign = RPGCampaign.query.get(campaign_id)
-    form = AddSessionForm()
+    form = AddSessionForm(date=date.today().strftime("%d.%m.%Y"))
     if form.validate_on_submit():
         new_session = GameSession(
             exp_points=form.exp_points.data,
-            date=date.today().strftime("%d.%m.%Y"),
+            date=form.date.data,
             campaign=campaign,
         )
         db.session.add(new_session)
 
-        campaign.last_played = date.today().strftime("%d.%m.%Y")
         campaign.exp_points += int(form.exp_points.data)
         campaign.num_sessions += 1
         db.session.commit()
-        return redirect(url_for('ttrpg_campaign_tracker'))
+        return redirect(url_for('add_session_to_campaign', campaign_id=campaign_id))
 
     return render_template('add_campaign.html', form=form, current_user=current_user)
+
+
+@app.route("/ttrpg/add/<int:campaign_id>", methods=["GET", "POST"])
+@user_only
+def quick_add_session_to_campaign(campaign_id):
+    campaign = RPGCampaign.query.get(campaign_id)
+    new_session = GameSession(
+        exp_points='0',
+        date=date.today().strftime("%d.%m.%Y"),
+        campaign=campaign,
+    )
+    db.session.add(new_session)
+
+    campaign.last_played = date.today().strftime("%d.%m.%Y")
+    campaign.num_sessions += 1
+    db.session.commit()
+    return redirect(url_for('show_campaign', campaign_id=campaign_id))
 
 
 @app.route("/ttrpg/show/<int:campaign_id>")
@@ -577,4 +593,4 @@ def edit_bgame(game_id):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

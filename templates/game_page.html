@@ -17,9 +17,8 @@
                 {% endif %}
                 <p class="lead">Number of sessions: {{game.num_sessions}}</p>
                 <p class="lead">Experience points: {{game.exp_points}}</p>
-                <p class="lead">Last played: {{ game.last_played }}</p>
+                <p class="lead no-margin">Last played: {{ game.last_played }}</p>
                 <br>
-
                 <p class="lead no-margin">Players <a href="{{ url_for('add_player_or_gm', campaign_id=game.id, what='player') }}"><i class="fa-solid fa-plus"></i></a></p>
                 {% for user in game.players %}
                     <p class="oswald small-table-text">{{ user.name }}</p>
@@ -29,9 +28,11 @@
                     <br>
                 {% endif %}
 
-                <p class="lead no-margin">Sessions <a href="{{url_for('add_session_to_campaign', campaign_id=game.id)}}"><i class="fa-solid fa-plus"></i></a></p>
+                <p class="lead no-margin">Sessions <a href="{{url_for('quick_add_session_to_campaign', campaign_id=game.id)}}"><i class="fa-solid fa-plus"></i></a></p>
+                <a class="btn btn-warning space-below" href="{{ url_for('add_session_to_campaign', campaign_id=game.id) }}" role="button">Add session</a>
+                <br>
                 {% for session in sessions: %}
-                    <p class="oswald small-table-text">Date: {{ session.date }} Exp: {{ session.exp_points }}</p>
+                    <p class="oswald small-table-text">{{ session.date }} | Exp: {{ session.exp_points }}</p>
                     <br>
                 {% endfor %}
 
