@@ -430,6 +430,7 @@ def add_session_to_campaign(campaign_id):
         )
         db.session.add(new_session)
 
+        campaign.last_played = form.date.data
         campaign.exp_points += int(form.exp_points.data)
         campaign.num_sessions += 1
         db.session.commit()
@@ -457,7 +458,7 @@ def quick_add_session_to_campaign(campaign_id):
 
 @app.route("/ttrpg/show/<int:campaign_id>")
 def show_campaign(campaign_id):
-    sessions = GameSession.query.filter_by(campaign_id=campaign_id).order_by(GameSession.date.desc())
+    sessions = GameSession.query.filter_by(campaign_id=campaign_id).order_by(GameSession.id.desc())
     return render_template('game_page.html', game=RPGCampaign.query.get(campaign_id),
                            sessions=sessions, current_user=current_user)
 
