@@ -48,7 +48,7 @@
                               <div class="col-12">
                                     <p class="lead">Expansions?</p>
                               </div>
-                              <div class="col-12 col-lg-12 col-sm-4  space-below">
+                              <div class="col-12 col-lg-12 col-sm-4 space-below">
                                     {{form.riverfolk(class_='btn-check')}}
                                     {{form.riverfolk.label(class_='btn btn-outline-exp root-faction-btn')}}
                               </div>
@@ -69,47 +69,47 @@
                               <div class="col-12">
                                     <p class="lead">Exclude factions?</p>
                               </div>
-                              <div class="col-6 col-md-4 col-lg-3 space-below">
+                              <div class="col-6 col-md-4 col-lg-3 faction-div space-below">
                               {{form.cats(class_='btn-check')}}
                               {{form.cats.label(class_='btn btn-outline-warning root-faction-btn')}}
                               </div>
-                              <div class="col-6 col-md-4 col-lg-3 space-below">
+                              <div class="col-6 col-md-4 col-lg-3 faction-div space-below">
                                     {{form.birds(class_='btn-check')}}
                               {{form.birds.label(class_='btn btn-outline-warning root-faction-btn')}}
                               </div>
-                              <div class="col-6 col-md-4 col-lg-3 space-below">
+                              <div class="col-6 col-md-4 col-lg-3 faction-div space-below">
                                     {{form.woodland(class_='btn-check')}}
                               {{form.woodland.label(class_='btn btn-outline-warning root-faction-btn')}}
                               </div>
-                              <div class="col-6 col-md-4 col-lg-3 space-below">
+                              <div class="col-6 col-md-4 col-lg-3 faction-div space-below">
                                     {{form.vagabond(class_='btn-check')}}
                               {{form.vagabond.label(class_='btn btn-outline-warning root-faction-btn')}}
                               </div>
-                              <div class="col-6 col-md-4 col-lg-3 space-below">
+                              <div class="col-6 col-md-4 col-lg-3 faction-div hidden space-below">
                                     {{form.vagabond2(class_='btn-check')}}
                               {{form.vagabond2.label(class_='btn btn-outline-warning root-faction-btn')}}
                               </div>
-                              <div class="col-6 col-md-4 col-lg-3 space-below">
+                              <div class="col-6 col-md-4 col-lg-3 faction-div hidden space-below">
                               {{form.otters(class_='btn-check')}}
                               {{form.otters.label(class_='btn btn-outline-warning root-faction-btn')}}
                               </div>
-                              <div class="col-6 col-md-4 col-lg-3 space-below">
+                              <div class="col-6 col-md-4 col-lg-3 faction-div hidden space-below">
                                     {{form.lizards(class_='btn-check')}}
                               {{form.lizards.label(class_='btn btn-outline-warning root-faction-btn')}}
                               </div>
-                              <div class="col-6 col-md-4 col-lg-3 space-below">
+                              <div class="col-6 col-md-4 col-lg-3 faction-div hidden space-below">
                                     {{form.moles(class_='btn-check')}}
                               {{form.moles.label(class_='btn btn-outline-warning root-faction-btn')}}
                               </div>
-                              <div class="col-6 col-md-4 col-lg-3 space-below">
+                              <div class="col-6 col-md-4 col-lg-3 faction-div hidden space-below">
                                     {{form.crows(class_='btn-check')}}
                               {{form.crows.label(class_='btn btn-outline-warning root-faction-btn')}}
                               </div>
-                              <div class="col-6 col-md-4 col-lg-3 space-below">
+                              <div class="col-6 col-md-4 col-lg-3 faction-div hidden space-below">
                                     {{form.badgers(class_='btn-check')}}
                               {{form.badgers.label(class_='btn btn-outline-warning root-faction-btn')}}
                               </div>
-                              <div class="col-6 col-md-4 col-lg-3 space-below">
+                              <div class="col-6 col-md-4 col-lg-3 faction-div hidden space-below">
                                     {{form.rats(class_='btn-check')}}
                               {{form.rats.label(class_='btn btn-outline-warning root-faction-btn')}}
                               </div>
@@ -127,7 +127,8 @@
       <div class="col-1 col-lg-2"></div>
       </div>
 
-{% include 'footer.html'%}
+<script src="{{ url_for('static', filename='js/root.js') }}"></script>
 
+{% include 'footer.html'%}
 
 </div>

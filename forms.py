@@ -44,7 +44,7 @@ class RootInfoForm(FlaskForm):
     cats = BooleanField("Marquise de Cat")
     birds = BooleanField("Eyrie Dynasties")
     woodland = BooleanField("Woodland Alliance")
-    vagabond = BooleanField("Vagabond (both)")
+    vagabond = BooleanField("Vagabond")
     vagabond2 = BooleanField("2nd Vagabond")
     otters = BooleanField("Riverfolk Company")
     lizards = BooleanField("Lizard Cult")
