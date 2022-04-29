@@ -32,7 +32,7 @@ a:hover {
     border-color: #D9CE3F;
 }
 
-.background, .home-btn {
+.background, .home-btn, .game-btn {
     background: no-repeat center center;
     background-color: #868e96;
     background-attachment: scroll;
@@ -293,4 +293,12 @@ a:hover {
 
 .hidden {
     display: none;
+}
+
+.wrong {
+    background-color: red;
+}
+
+.game-btn {
+    padding: 10vh;
 }

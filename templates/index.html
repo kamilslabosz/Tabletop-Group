@@ -2,19 +2,23 @@
 <div class="background" style="background-image: url({{ url_for('static', filename='img/home-bg.jpg')}})">
 {% include "navbar.html" %}
 <div class="text-center">
+
     <div class="container space-above" id="home-container">
+
+        <div id="home-area">
         <h1 class="display-4">Hi there</h1>
         <p class="lead">Below are some webapps that I use. Some of it is still under construction, so please keep that in mind.</p>
         <hr class="my-4">
+        <p id="show-game" class="btn btn-outline-warning">Play a game</p>
         <div class="row">
             <div class="col-lg-4 col-6">
                 <a class="btn home-btn" style="background-image: url({{ url_for('static', filename='img/root-bg.jpeg')}})" href="{{ url_for('root_faction_assigner') }}" role="button"> </a>
             </div>
             <div class="col-lg-4 col-6">
-            <a class="btn home-btn" style="background-image: url({{ url_for('static', filename='img/ttrpg-bg.jpg')}})" href="{{url_for('ttrpg_campaign_tracker')}}" role="button"> </a>
+                <a class="btn home-btn" style="background-image: url({{ url_for('static', filename='img/ttrpg-bg.jpg')}})" href="{{url_for('ttrpg_campaign_tracker')}}" role="button"> </a>
             </div>
             <div class="col-lg-4 col-6">
-            <a class="btn home-btn" style="background-image: url({{ url_for('static', filename='img/game-collection-bg.jpg')}})" href="{{url_for('boardgames')}}" role="button"> </a>
+                <a class="btn home-btn" style="background-image: url({{ url_for('static', filename='img/game-collection-bg.jpg')}})" href="{{url_for('boardgames')}}" role="button"> </a>
             </div>
             <div class="col-lg-4 col-6">
                 <a class="btn home-btn" style="background-image: url({{ url_for('static', filename='img/to_do_list-bg.jpg')}})" href="{{ url_for('todo') }}" role="button"> </a>
@@ -23,16 +27,32 @@
                 <a class="btn home-btn" style="background-image: url({{ url_for('static', filename='img/contact-me-bg.jpg')}})" href="{{ url_for('contact_me') }}" role="button"> </a>
             </div>
             <div class="col-lg-4 col-6">
-            <a class="btn home-btn" style="background-image: url({{ url_for('static', filename='img/me.jpeg')}})" href="{{ url_for('about') }}" role="button"> </a>
+                <a class="btn home-btn" style="background-image: url({{ url_for('static', filename='img/me.jpeg')}})" href="{{ url_for('about') }}" role="button"> </a>
+            </div>
             </div>
         </div>
+    <div class="row">
+        <h1 class="level-counter game">Level 1</h1>
+        <div id="root" class="col-lg-4 col-6 game-btn game" style="background-image: url({{ url_for('static', filename='img/root-bg.jpeg')}})"></div>
+        <div id="ttrpg" class="col-lg-4 col-6 game-btn game" style="background-image: url({{ url_for('static', filename='img/ttrpg-bg.jpg')}})"></div>
+        <div id="bg-game" class="col-lg-4 col-6 game-btn game" style="background-image: url({{ url_for('static', filename='img/game-collection-bg.jpg')}})"></div>
+        <div id="todo" class="col-lg-4 col-6 game-btn game" style="background-image: url({{ url_for('static', filename='img/to_do_list-bg.jpg')}})"></div>
+        <div id="contact" class="col-lg-4 col-6 game-btn game" style="background-image: url({{ url_for('static', filename='img/contact-me-bg.jpg')}})"></div>
+        <div id="about" class="col-lg-4 col-6 game-btn game" style="background-image: url({{ url_for('static', filename='img/me.jpeg')}})"></div>
+        <div class="text-center">
+        <h1 class="display-4 game-over">Game Over :(</h1>
+        <button id="start-game" class="btn btn-warning btn-lg game space-below">Start</button>
+        <a class="btn btn-warning btn-lg space-below reload-game game" onClick="window.location.reload();">Go Back</a>
+        </div>
+    </div>
 
     </div>
+
 </div>
 
 {% include 'footer.html' %}
 
 {%include 'scripts.html'%}
-
+<script src="{{ url_for('static', filename='js/home.js') }}"></script>
 </body>
 </div>
