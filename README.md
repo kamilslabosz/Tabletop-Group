@@ -6,12 +6,12 @@ Backend uses Board Game Game web scraping instead of API, due to the latter's un
 Heroku PostgreSQL is used as a database.
 
 ## Made with
-flask
-fask_session
-flask_bootstrap
-flask_login
-flask_sqlalchemy
-sqlalchemy
-flask_wtf
-wtforms
-wtforms.validators
+#### flask
+#### fask_session
+#### flask_bootstrap
+#### flask_login
+#### flask_sqlalchemy
+#### sqlalchemy
+#### flask_wtf
+#### wtforms
+#### wtforms.validators
